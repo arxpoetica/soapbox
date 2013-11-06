@@ -1,0 +1,19 @@
+{
+  "name": "nko4-xyzzy",
+  "version": "0.0.0",
+  "description": "xyzzy",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nko4/xyzzy.git"
+  },
+  "dependencies": {
+    "nko": "*"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
