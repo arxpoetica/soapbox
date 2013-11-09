@@ -19,7 +19,7 @@ var self = module.exports = {
 			});
 		});
 
-		app.get('/leaders', function(req, res) {
+		app.get('/leaders/', function(req, res) {
 			console.log(req.params);
 			res.render('leaders', {
 				title: 'Leaders | Soapbox',
