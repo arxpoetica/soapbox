@@ -8,7 +8,7 @@ var self = module.exports = {
 		var globals = app.get('globals');
 
 		app.get('/api/signup/:email', function(req, res) {
-			UserController.getUser(req.params.email, function(user) {
+			UserController.createUser(req.params.email, function(user) {
 				res.render('api/json', {
 					jsonObject: {
 						user: user
