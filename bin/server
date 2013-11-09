@@ -13,7 +13,7 @@ var app = exports.app = express();
 
 var config = require(rootDir + '/config');
 var nodeEnv = config.get('ENVIRONMENT');
-var port = nodeEnv === 'production' ? 80 : config.get('PORT');
+var port = NODE_ENV === 'production' ? 80 : config.get('PORT');
 // console.log(port, nodeEnv);
 
 var server;
