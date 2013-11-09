@@ -124,7 +124,7 @@ p {
 }
 h1 {
   margin: 0 0 0.2em;
-  font: 700 4.8rem/1.2 'Asul', Arial, sans-serif;
+  font: 700 4.8rem/1.2 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
   text-transform: uppercase;
 }
 h1 small {
@@ -133,26 +133,26 @@ h1 small {
 }
 h2 {
   margin: 0;
-  font: 700 2.4rem/1.2 'Asul', Arial, sans-serif;
+  font: 700 2.4rem/1.2 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
 }
 h3 {
   margin: 2em 0 1em;
-  font: 700 1.3em/1.2 'Asul', Arial, sans-serif;
+  font: 700 1.3em/1.2 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
 h4 {
   margin: 0;
-  font: 700 3rem/1.2 'Asul', Arial, sans-serif;
+  font: 700 3rem/1.2 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
   text-transform: uppercase;
 }
 h5 {
   margin: 1em 0 0.5em;
-  font: 700 2.5em/1.2 'Anaheim', 'Inconsolata', 'Courier New', monospace;
+  font: 700 2.5em/1.2 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
 }
 h6 {
   margin: 1em 0 0.5em;
-  font: 700 italic 2em/1.2 'Asul', Arial, sans-serif;
+  font: 700 italic 2em/1.2 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
 }
 .image.left {
   margin: 5px 24px 22px -170px;
@@ -220,16 +220,15 @@ figure,
   margin: 0 0 0 -480px;
   width: 960px;
   height: auto;
-  font: 1.6rem/1.4 'Asul', Arial, sans-serif;
+  font: 1.6rem/1.4 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
   overflow: visible;
 }
 blockquote {
   margin: 0 0 1.8rem;
-  font: 400 36px/40px 'Cookie', Baskerville, "Baskerville old face", "Hoefler Text", Garamond, "Times New Roman", serif;
 }
 figcaption {
   display: block;
-  font: 400 24px/1.25 'Asul', Arial, sans-serif;
+  font: 400 24px/1.25 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
   text-transform: uppercase;
 }
 blockquote figcaption {
@@ -248,18 +247,6 @@ blockquote figcaption:after {
   text-align: right;
   width: 3000px;
 }
-figure.smallFigure {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-}
-figure.smallFigure blockquote {
-  font: 400 italic 3rem/4.2rem 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
-}
-figure.smallFigure blockquote + figcaption,
-figure.smallFigure blockquote figcaption {
-  font: 400 2.4rem/3rem 'Asul', Arial, sans-serif;
-}
 table {
   margin: 0 0 18px;
   width: 100%;
@@ -271,7 +258,6 @@ table {
 caption {
   margin: 0 0 8px;
   padding: 0;
-  font: bold 14px/18px 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   text-align: left;
@@ -282,7 +268,6 @@ th {
   vertical-align: bottom;
   background-color: #f9d573;
   color: #fff;
-  font: 15px/21px 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
   letter-spacing: 1.5px;
   text-shadow: 0 -1px 3px #ccc;
   text-transform: uppercase;
@@ -327,7 +312,7 @@ form h2 {
   border: 0;
   margin: 0 0 12px;
   padding: 0;
-  font: 20px/34px 'Asul', Arial, sans-serif;
+  font: 20px/34px 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
   letter-spacing: 1.5px;
   text-shadow: 0 -1px 3px #ddd;
   text-transform: uppercase;
@@ -346,16 +331,10 @@ fieldset {
   padding: 0;
 }
 label {
-  float: left;
-  min-height: 34px;
-  width: 40%;
-  margin: 0 5%;
+  display: inline-block;
+  margin: 0 5px 0 0;
   vertical-align: middle;
   cursor: pointer;
-  font: 15px/34px 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
-  letter-spacing: 1.5px;
-  text-shadow: 0 -1px 3px #ddd;
-  text-transform: uppercase;
 }
 label.checkbox,
 label.radio {
@@ -366,7 +345,6 @@ label.radio {
 label.checkbox,
 label.radio,
 form .small {
-  font: 14px/18px 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
   letter-spacing: 0px;
   text-shadow: none;
   text-transform: none;
@@ -646,7 +624,7 @@ body {
   padding: 83px 15px 65px;
   color: #a52a2a;
   background-color: #fff;
-  font: 2.8rem/1.5 'Quattrocento Sans', Arial, sans-serif;
+  font: 2.2rem/1.2 'Lato', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 header {

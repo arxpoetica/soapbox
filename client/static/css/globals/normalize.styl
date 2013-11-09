@@ -88,7 +88,7 @@ h4
 	text-transform uppercase
 h5
 	margin 1em 0 0.5em
-	font 700 2.5em/1.2 $fixedWidthFontFamily
+	font 700 2.5em/1.2 $headerFontFamily
 h6
 	margin 1em 0 0.5em
 	font 700 italic 2em/1.2 $headerFontFamily
@@ -123,7 +123,6 @@ figure
 	overflow visible
 blockquote
 	margin 0 0 1.8rem
-	font 400 36px/40px $cookieFontFamily
 figcaption
 	display block
 	font 400 24px/1.25 $headerFontFamily
@@ -142,16 +141,6 @@ blockquote figcaption
 		text-align right	
 		width 3000px
 
-figure.smallFigure
-	margin 0
-	width 100%
-	height 100%
-	blockquote
-		font 400 italic 3rem/4.2rem $libreFontFamily
-		& + figcaption
-		figcaption
-			font 400 2.4rem/3rem $headerFontFamily
-
 table{
 	margin 0 0 18px
 	width 100%
@@ -163,7 +152,6 @@ table{
 caption{
 	margin 0 0 8px
 	padding 0
-	font bold 14px/18px $libreFontFamily
 	letter-spacing 1.5px
 	text-transform uppercase
 	text-align:left;
@@ -174,7 +162,6 @@ th{
 	vertical-align:bottom;
 	background-color #f9d573
 	color white
-	font 15px/21px $libreFontFamily
 	letter-spacing 1.5px
 	text-shadow 0 -1px 3px #ccc
 	text-transform uppercase
@@ -234,16 +221,10 @@ fieldset
 .popup fieldset
 	padding 0
 label
-	float left
-	min-height 34px
-	width 40%
-	margin 0 5%
+	display inline-block
+	margin 0 5px 0 0
 	vertical-align middle
 	cursor pointer
-	font 15px/34px $libreFontFamily
-	letter-spacing 1.5px
-	text-shadow 0 -1px 3px #ddd
-	text-transform uppercase
 label.checkbox
 label.radio
 	margin 0
@@ -252,7 +233,6 @@ label.radio
 label.checkbox
 label.radio
 form .small
-	font 14px/18px $libreFontFamily
 	letter-spacing 0px
 	text-shadow none
 	text-transform none
