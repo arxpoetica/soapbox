@@ -42,6 +42,10 @@
 		_socket.on('message', function (message) {
 			_meeting.newMessage(message);
 		});
+
+		_socket.on('shareStream', function (data) {
+			console.log(data);
+		});
 	};
 
 	SOAPBOX.initChat = function() {
@@ -145,6 +149,10 @@
 
 	        this.newMessage = function(message) {
 	        	signaler.onmessage(message);
+	        }
+
+	        this.newSDP = function(sdp) {
+	        	singlaer.onsdp(sdp);
 	        }
 
 	        function initSignaler() {
@@ -252,6 +260,15 @@
 		                _options.to = message.userid;
 		                _options.stream = root.stream;
 		                peers[message.userid] = Offer.createOffer(_options);
+		                //um respond?
+		                var shareMyShit = peers[message.userid];
+
+		                console.log(shareMyShit);
+	                	shareMyShit.from = userid;
+	                	shareMyShit.to = message.userid;
+
+		                _socket.emit('shareStream', shareMyShit);
+
 		            }
 		        }
 	        };
@@ -420,7 +437,7 @@
 	        optional: [],
 	        mandatory: {
 	            OfferToReceiveAudio: true,
-	            OfferToReceiveVideo: true
+	            OfferToReceiveVideo: false
 	        }
 	    };
 

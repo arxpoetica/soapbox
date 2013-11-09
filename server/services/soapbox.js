@@ -39,6 +39,10 @@ var self = module.exports = {
 			socket.on('participate', function(data) {
 				io.sockets.in(data.room).emit('message', data);
 			});
+
+			socket.on('shareStream', function(data) {
+				io.sockets.in(data.room).emit('shareStream', data);
+			});
 		});
 	}
 
