@@ -11,7 +11,8 @@
     "url": "git@github.com:nko4/xyzzy.git"
   },
   "dependencies": {
-    "nko": "*"
+    "nko": "*",
+    "mongodb": "*"
   },
   "engines": {
     "node": "0.10.x"
