@@ -9,7 +9,7 @@
 		console.log('box', options);
 		SOAPBOX.initSocket();
 		SOAPBOX.initChat();
-		SOAPBOX.webrtc();
+		//SOAPBOX.webrtc();
 	};
 
 	SOAPBOX.initSocket = function() {
@@ -36,16 +36,12 @@
 
 		_socket.on('join', function (users) {
 			console.log('users: ', users);
-			SOAPBOX.initStream(users[0]);
+			//SOAPBOX.initStream(users[0]);
 		});
 
-		_socket.on('message', function (message) {
-			_meeting.newMessage(message);
-		});
-
-		_socket.on('shareStream', function (data) {
-			console.log(data);
-		});
+		// _socket.on('message', function (message) {
+		// 	_meeting.newMessage(message);
+		// });
 	};
 
 	SOAPBOX.initChat = function() {
@@ -104,451 +100,451 @@
 	// 	}
 	// };
 
-	SOAPBOX.initStream = function(current) {
-		_meeting = new Meeting('box1');
-		var remoteMediaStreams = document.getElementById('remote-media-stream');
-		var localMediaStream = document.getElementById('local-media-stream');
+	// SOAPBOX.initStream = function(current) {
+	// 	_meeting = new Meeting('box1');
+	// 	var remoteMediaStreams = document.getElementById('remote-media-stream');
+	// 	var localMediaStream = document.getElementById('local-media-stream');
 
-		// on getting media stream
-		_meeting.onaddstream = function(e) {
-			if (e.type == 'local') localMediaStream.appendChild(e.audio);
-			if (e.type == 'remote') remoteMediaStreams.insertBefore(e.audio, remoteMediaStreams.firstChild);
-		};
+	// 	// on getting media stream
+	// 	_meeting.onaddstream = function(e) {
+	// 		if (e.type == 'local') localMediaStream.appendChild(e.audio);
+	// 		if (e.type == 'remote') remoteMediaStreams.insertBefore(e.audio, remoteMediaStreams.firstChild);
+	// 	};
 
-		// if someone leaves; just remove his audio
-		_meeting.onuserleft = function(userid) {
-			var audio = document.getElementById(userid);
-			if (audio) audio.parentNode.removeChild(audio);
-		};
+	// 	// if someone leaves; just remove his audio
+	// 	_meeting.onuserleft = function(userid) {
+	// 		var audio = document.getElementById(userid);
+	// 		if (audio) audio.parentNode.removeChild(audio);
+	// 	};
 		
-		//see if they should broadcast or not
-		_meeting.setup(current);
-
-		// document.getElementById('setup-new-meeting').onclick = function() {
-		// 	// setup new meeting box
-		// 	meeting.setup('meeting box name');
-		// 	this.disabled = true;
-		// 	//this.parentNode.innerHTML = '<h2><a href="' + location.href + '" target="_blank">Share this link</a></h2>';
-		// };
-
-	};
-
-	SOAPBOX.webrtc = function() {
-		// a middle-agent between public API and the Signaler object
-	    window.Meeting = function(channel) {
-	        var signaler, self = this;
-	        this.channel = channel;
-
-	        // get alerted for each new meeting
-	        this.onmeeting = function(room) {
-	            if (self.detectedRoom) return;
-	            self.detectedRoom = true;
-
-	            self.meet(room);
-	        };
-
-	        this.newMessage = function(message) {
-	        	signaler.onmessage(message);
-	        }
-
-	        this.newSDP = function(sdp) {
-	        	singlaer.onsdp(sdp);
-	        }
-
-	        function initSignaler() {
-	            signaler = new Signaler(self);
-	        }
-
-	        function captureUserMedia(callback) {
-	            var constraints = {
-	                audio: true,
-	                video: false
-	            };
-	            navigator.getUserMedia(constraints, onstream, onerror);
-
-	            function onstream(stream) {
-	                self.stream = stream;
-	                callback(stream);
-
-	                var audio = document.createElement('audio');
-	                audio.id = 'self';
-	                audio[isFirefox ? 'mozSrcObject' : 'src'] = isFirefox ? stream : window.webkitURL.createObjectURL(stream);
-
-	                audio.autoplay = true;
-	                audio.controls = true;
-	                audio.play();
-
-	                self.onaddstream({
-	                    audio: audio,
-	                    stream: stream,
-	                    userid: 'self',
-	                    type: 'local'
-	                });
-	            }
-
-	            function onerror(e) {
-	                console.error(e);
-	            }
-	        }
-
-	        // setup new meeting room
-	        this.setup = function(current) {
-	        	captureUserMedia(function() {
-	        		!signaler && initSignaler();
-	        		//you are not alone!
-	                if(current !== _id) {
-	                	signaler.join({
-		                    to: current,
-		                    roomid: _room
-		                });
-	                } else {
-	                	signaler.broadcast({
-		                    roomid: _room
-		                });	
-	                }
-	        	});
-	        };
-	    };
-
-	    // it is a backbone object
-
-	    function Signaler(root) {
-	        // unique session-id
-	        var channel = root.channel;
-
-            // method to signal the data
-            this.signal = function(data) {
-                data.data.userid = _id;
-                _socket.emit(data.kind, data.data);
-            };
-
-	        // unique identifier for the current user
-	        var userid = _id;
-
-	        // self instance
-	        var signaler = this;
-
-	        // object to store all connected peers
-	        var peers = { };
-
-	        // object to store ICE candidates for answerer
-	        var candidates = { };
-
-	        // it is called when your signaling implementation fires "onmessage"
-	        this.onmessage = function(message) {
-	        	console.log(message);
-	            // if new room detected
-	            if (message.roomid && message.broadcasting && !signaler.sentParticipationRequest) {
-	            	root.onmeeting(message);
-	            } else {
-		            // if someone shared SDP
-		            if (message.sdp && message.to === userid) {
-		            	console.log('sdp');
-		                this.onsdp(message);
-		            }
-
-		            // if someone shared ICE
-		            if (message.candidate && message.to === userid) {
-		            	console.log('ice');
-		                this.onice(message);
-		            }
-
-		            // if someone sent participation request
-		            if (message.participationRequest && message.to === userid) {
-		            	console.log('request');
-		                var _options = options;
-		                _options.to = message.userid;
-		                _options.stream = root.stream;
-		                peers[message.userid] = Offer.createOffer(_options);
-		                //um respond?
-		                var shareMyShit = peers[message.userid];
-
-		                console.log(shareMyShit);
-	                	shareMyShit.from = userid;
-	                	shareMyShit.to = message.userid;
-
-		                _socket.emit('shareStream', shareMyShit);
-
-		            }
-		        }
-	        };
-
-	        // if someone shared SDP
-	        this.onsdp = function(message) {
-	            var sdp = message.sdp;
-
-	            if (sdp.type == 'offer') {
-	                var _options = options;
-	                _options.stream = root.stream;
-	                _options.sdp = sdp;
-	                _options.to = message.userid;
-	                peers[message.userid] = Answer.createAnswer(_options);
-	            }
-
-	            if (sdp.type == 'answer') {
-	                peers[message.userid].setRemoteDescription(sdp);
-	            }
-	        };
-
-	        // if someone shared ICE
-	        this.onice = function(message) {
-	            var peer = peers[message.userid];
-	            if (!peer) {
-	                var candidate = candidates[message.userid];
-	                if (candidate) candidates[message.userid][candidate.length] = message.candidate;
-	                else candidates[message.userid] = [message.candidate];
-	            } else {
-	                peer.addIceCandidate(message.candidate);
-
-	                var _candidates = candidates[message.userid] || [];
-	                if (_candidates.length) {
-	                    for (var i = 0; i < _candidates.length; i++) {
-	                        peer.addIceCandidate(_candidates[i]);
-	                    }
-	                    candidates[message.userid] = [];
-	                }
-	            }
-	        };
-
-	        // it is passed over Offer/Answer objects for reusability
-	        var options = {
-	            onsdp: function(sdp, to) {
-	                signaler.signal({
-	                	kind: 'sdp',
-	                    data: {
-	                    	sdp: sdp,
-	                    	to: to
-	                    }
-	                });
-	            },
-	            onicecandidate: function(candidate, to) {
-	                signaler.signal({
-	                	kind: 'candidate',
-	                    data: {
-	                    	candidate: candidate,
-	                    	to: to
-	                    }
-	                });
-	            },
-	            onaddstream: function(stream, _userid) {
-	                console.debug('onaddstream', '>>>>>>', stream);
-
-	                var audio = document.createElement('audio');
-	                audio.id = _id;
-	                audio[isFirefox ? 'mozSrcObject' : 'src'] = isFirefox ? stream : window.webkitURL.createObjectURL(stream);
-	                audio.autoplay = true;
-	                audio.controls = true;
-
-	                audio.addEventListener('play', function() {
-	                    setTimeout(function() {
-	                        audio.muted = false;
-	                        audio.volume = 1;
-	                        afterRemoteStreamStartedFlowing();
-	                    }, 3000);
-	                }, false);
-
-	                audio.play();
-
-	                function afterRemoteStreamStartedFlowing() {
-	                    if (!root.onaddstream) return;
-	                    root.onaddstream({
-	                        audio: audio,
-	                        stream: stream,
-	                        userid: _id,
-	                        type: 'remote'
-	                    });
-	                }
-	            }
-	        };
-
-	        // call only for session initiator
-	        this.broadcast = function(_config) {
-	            signaler.roomid = _config.roomid;
-	            signaler.isbroadcaster = true;
-                signaler.signal({
-                	kind: 'broadcast',
-                	data: {
-                		roomid: signaler.roomid,
-                    	broadcasting: true
-                	}
-                });
-	        };
-
-	        // called for each new participant
-	        this.join = function(_config) {
-	            signaler.roomid = _config.roomid;
-	            this.signal({
-	            	kind: 'participate',
-	                data: {
-	                	participationRequest: true,
-	                	to: _config.to
-	                }
-	            });
-	            signaler.sentParticipationRequest = true;
-	        };
-
-	        unloadHandler(userid, signaler);
-	    }
-
-	    // reusable stuff
-	    var RTCPeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-	    var RTCSessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
-	    var RTCIceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
-
-	    navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
-	    window.URL = window.webkitURL || window.URL;
-
-	    var isFirefox = !!navigator.mozGetUserMedia;
-	    var isChrome = !!navigator.webkitGetUserMedia;
-
-	    var STUN = {
-	        url: isChrome ? 'stun:stun.l.google.com:19302' : 'stun:23.21.150.121'
-	    };
-
-	    var TURN = {
-	        url: 'turn:webrtc%40live.com@numb.viagenie.ca',
-	        credential: 'muazkh'
-	    };
-
-	    var iceServers = {
-	        iceServers: [STUN]
-	    };
-
-	    if (isChrome) {
-	        if (parseInt(navigator.userAgent.match( /Chrom(e|ium)\/([0-9]+)\./ )[2]) >= 28)
-	            TURN = {
-	                url: 'turn:numb.viagenie.ca',
-	                credential: 'muazkh',
-	                username: 'webrtc@live.com'
-	            };
-
-	        // No STUN to make sure it works all the time!
-	        iceServers.iceServers = [TURN];
-	    }
-
-	    var optionalArgument = {
-	        optional: [{
-	            DtlsSrtpKeyAgreement: true
-	        // RtpDataChannels: true
-	        }]
-	    };
-
-	    var offerAnswerConstraints = {
-	        optional: [],
-	        mandatory: {
-	            OfferToReceiveAudio: true,
-	            OfferToReceiveVideo: false
-	        }
-	    };
-
-
-	    /*
-	    var offer = Offer.createOffer(config);
-	    offer.setRemoteDescription(sdp);
-	    offer.addIceCandidate(candidate);
-	    */
-	    var Offer = {
-	        createOffer: function(config) {
-	            var peer = new RTCPeerConnection(iceServers, optionalArgument);
-
-	            if (config.stream) peer.addStream(config.stream);
-	            if (config.onaddstream)
-	                peer.onaddstream = function(event) {
-	                    config.onaddstream(event.stream, config.to);
-	                };
-	            if (config.onicecandidate)
-	                peer.onicecandidate = function(event) {
-	                    if (event.candidate) config.onicecandidate(event.candidate, config.to);
-	                };
-
-	            peer.createOffer(function(sdp) {
-	                peer.setLocalDescription(sdp);
-	                if (config.onsdp) config.onsdp(sdp, config.to);
-	            }, null, offerAnswerConstraints);
-
-	            this.peer = peer;
-
-	            return this;
-	        },
-	        setRemoteDescription: function(sdp) {
-	            this.peer.setRemoteDescription(new RTCSessionDescription(sdp));
-	        },
-	        addIceCandidate: function(candidate) {
-	            this.peer.addIceCandidate(new RTCIceCandidate({
-	                sdpMLineIndex: candidate.sdpMLineIndex,
-	                candidate: candidate.candidate
-	            }));
-	        }
-	    };
-
-	    /*
-	    var answer = Answer.createAnswer(config);
-	    answer.setRemoteDescription(sdp);
-	    answer.addIceCandidate(candidate);
-	    */
-	    var Answer = {
-	        createAnswer: function(config) {
-	            var peer = new RTCPeerConnection(iceServers, optionalArgument);
-
-	            if (config.stream) peer.addStream(config.stream);
-	            if (config.onaddstream)
-	                peer.onaddstream = function(event) {
-	                    config.onaddstream(event.stream, config.to);
-	                };
-	            if (config.onicecandidate)
-	                peer.onicecandidate = function(event) {
-	                    if (event.candidate) config.onicecandidate(event.candidate, config.to);
-	                };
-
-	            peer.setRemoteDescription(new RTCSessionDescription(config.sdp));
-	            peer.createAnswer(function(sdp) {
-	                peer.setLocalDescription(sdp);
-	                if (config.onsdp) config.onsdp(sdp, config.to);
-	            }, null, offerAnswerConstraints);
-
-	            this.peer = peer;
-
-	            return this;
-	        },
-	        addIceCandidate: function(candidate) {
-	            this.peer.addIceCandidate(new RTCIceCandidate({
-	                sdpMLineIndex: candidate.sdpMLineIndex,
-	                candidate: candidate.candidate
-	            }));
-	        }
-	    };
-
-	    function unloadHandler(userid, signaler) {
-	        window.onbeforeunload = function() {
-	            leaveRoom();
-	            // return 'You\'re leaving the session.';
-	        };
-
-	        window.onkeyup = function(e) {
-	            if (e.keyCode == 116)
-	                leaveRoom();
-	        };
-
-	        var anchors = document.querySelectorAll('a'),
-	            length = anchors.length;
-	        for (var i = 0; i < length; i++) {
-	            var a = anchors[i];
-	            if (a.href.indexOf('#') !== 0 && a.getAttribute('target') != '_blank')
-	                a.onclick = function() {
-	                    leaveRoom();
-	                };
-	        }
-
-	        function leaveRoom() {
-	            signaler.signal({
-	            	kind: 'leaving',
-	            	data: {
-	            		leaving: true
-	            	}
-	            });
-	        }
-	    }
-	};
+	// 	//see if they should broadcast or not
+	// 	_meeting.setup(current);
+
+	// 	// document.getElementById('setup-new-meeting').onclick = function() {
+	// 	// 	// setup new meeting box
+	// 	// 	meeting.setup('meeting box name');
+	// 	// 	this.disabled = true;
+	// 	// 	//this.parentNode.innerHTML = '<h2><a href="' + location.href + '" target="_blank">Share this link</a></h2>';
+	// 	// };
+
+	// };
+
+	// SOAPBOX.webrtc = function() {
+	// 	// a middle-agent between public API and the Signaler object
+	//     window.Meeting = function(channel) {
+	//         var signaler, self = this;
+	//         this.channel = channel;
+
+	//         // get alerted for each new meeting
+	//         this.onmeeting = function(room) {
+	//             if (self.detectedRoom) return;
+	//             self.detectedRoom = true;
+
+	//             self.meet(room);
+	//         };
+
+	//         this.newMessage = function(message) {
+	//         	signaler.onmessage(message);
+	//         }
+
+	//         this.newSDP = function(sdp) {
+	//         	singlaer.onsdp(sdp);
+	//         }
+
+	//         function initSignaler() {
+	//             signaler = new Signaler(self);
+	//         }
+
+	//         function captureUserMedia(callback) {
+	//             var constraints = {
+	//                 audio: true,
+	//                 video: false
+	//             };
+	//             navigator.getUserMedia(constraints, onstream, onerror);
+
+	//             function onstream(stream) {
+	//                 self.stream = stream;
+	//                 callback(stream);
+
+	//                 var audio = document.createElement('audio');
+	//                 audio.id = 'self';
+	//                 audio[isFirefox ? 'mozSrcObject' : 'src'] = isFirefox ? stream : window.webkitURL.createObjectURL(stream);
+
+	//                 audio.autoplay = true;
+	//                 audio.controls = true;
+	//                 audio.play();
+
+	//                 self.onaddstream({
+	//                     audio: audio,
+	//                     stream: stream,
+	//                     userid: 'self',
+	//                     type: 'local'
+	//                 });
+	//             }
+
+	//             function onerror(e) {
+	//                 console.error(e);
+	//             }
+	//         }
+
+	//         // setup new meeting room
+	//         this.setup = function(current) {
+	//         	captureUserMedia(function() {
+	//         		!signaler && initSignaler();
+	//         		//you are not alone!
+	//                 if(current !== _id) {
+	//                 	signaler.join({
+	// 	                    to: current,
+	// 	                    roomid: _room
+	// 	                });
+	//                 } else {
+	//                 	signaler.broadcast({
+	// 	                    roomid: _room
+	// 	                });	
+	//                 }
+	//         	});
+	//         };
+	//     };
+
+	//     // it is a backbone object
+
+	//     function Signaler(root) {
+	//         // unique session-id
+	//         var channel = root.channel;
+
+ //            // method to signal the data
+ //            this.signal = function(data) {
+ //                data.data.userid = _id;
+ //                _socket.emit(data.kind, data.data);
+ //            };
+
+	//         // unique identifier for the current user
+	//         var userid = _id;
+
+	//         // self instance
+	//         var signaler = this;
+
+	//         // object to store all connected peers
+	//         var peers = { };
+
+	//         // object to store ICE candidates for answerer
+	//         var candidates = { };
+
+	//         // it is called when your signaling implementation fires "onmessage"
+	//         this.onmessage = function(message) {
+	//         	console.log(message);
+	//             // if new room detected
+	//             if (message.roomid && message.broadcasting && !signaler.sentParticipationRequest) {
+	//             	root.onmeeting(message);
+	//             } else {
+	// 	            // if someone shared SDP
+	// 	            if (message.sdp && message.to === userid) {
+	// 	            	console.log('sdp');
+	// 	                this.onsdp(message);
+	// 	            }
+
+	// 	            // if someone shared ICE
+	// 	            if (message.candidate && message.to === userid) {
+	// 	            	console.log('ice');
+	// 	                this.onice(message);
+	// 	            }
+
+	// 	            // if someone sent participation request
+	// 	            if (message.participationRequest && message.to === userid) {
+	// 	            	console.log('request');
+	// 	                var _options = options;
+	// 	                _options.to = message.userid;
+	// 	                _options.stream = root.stream;
+	// 	                peers[message.userid] = Offer.createOffer(_options);
+	// 	                //um respond?
+	// 	                var shareMyShit = peers[message.userid];
+
+	// 	                console.log(shareMyShit);
+	//                 	shareMyShit.from = userid;
+	//                 	shareMyShit.to = message.userid;
+
+	// 	                _socket.emit('shareStream', shareMyShit);
+
+	// 	            }
+	// 	        }
+	//         };
+
+	//         // if someone shared SDP
+	//         this.onsdp = function(message) {
+	//             var sdp = message.sdp;
+
+	//             if (sdp.type == 'offer') {
+	//                 var _options = options;
+	//                 _options.stream = root.stream;
+	//                 _options.sdp = sdp;
+	//                 _options.to = message.userid;
+	//                 peers[message.userid] = Answer.createAnswer(_options);
+	//             }
+
+	//             if (sdp.type == 'answer') {
+	//                 peers[message.userid].setRemoteDescription(sdp);
+	//             }
+	//         };
+
+	//         // if someone shared ICE
+	//         this.onice = function(message) {
+	//             var peer = peers[message.userid];
+	//             if (!peer) {
+	//                 var candidate = candidates[message.userid];
+	//                 if (candidate) candidates[message.userid][candidate.length] = message.candidate;
+	//                 else candidates[message.userid] = [message.candidate];
+	//             } else {
+	//                 peer.addIceCandidate(message.candidate);
+
+	//                 var _candidates = candidates[message.userid] || [];
+	//                 if (_candidates.length) {
+	//                     for (var i = 0; i < _candidates.length; i++) {
+	//                         peer.addIceCandidate(_candidates[i]);
+	//                     }
+	//                     candidates[message.userid] = [];
+	//                 }
+	//             }
+	//         };
+
+	//         // it is passed over Offer/Answer objects for reusability
+	//         var options = {
+	//             onsdp: function(sdp, to) {
+	//                 signaler.signal({
+	//                 	kind: 'sdp',
+	//                     data: {
+	//                     	sdp: sdp,
+	//                     	to: to
+	//                     }
+	//                 });
+	//             },
+	//             onicecandidate: function(candidate, to) {
+	//                 signaler.signal({
+	//                 	kind: 'candidate',
+	//                     data: {
+	//                     	candidate: candidate,
+	//                     	to: to
+	//                     }
+	//                 });
+	//             },
+	//             onaddstream: function(stream, _userid) {
+	//                 console.debug('onaddstream', '>>>>>>', stream);
+
+	//                 var audio = document.createElement('audio');
+	//                 audio.id = _id;
+	//                 audio[isFirefox ? 'mozSrcObject' : 'src'] = isFirefox ? stream : window.webkitURL.createObjectURL(stream);
+	//                 audio.autoplay = true;
+	//                 audio.controls = true;
+
+	//                 audio.addEventListener('play', function() {
+	//                     setTimeout(function() {
+	//                         audio.muted = false;
+	//                         audio.volume = 1;
+	//                         afterRemoteStreamStartedFlowing();
+	//                     }, 3000);
+	//                 }, false);
+
+	//                 audio.play();
+
+	//                 function afterRemoteStreamStartedFlowing() {
+	//                     if (!root.onaddstream) return;
+	//                     root.onaddstream({
+	//                         audio: audio,
+	//                         stream: stream,
+	//                         userid: _id,
+	//                         type: 'remote'
+	//                     });
+	//                 }
+	//             }
+	//         };
+
+	//         // call only for session initiator
+	//         this.broadcast = function(_config) {
+	//             signaler.roomid = _config.roomid;
+	//             signaler.isbroadcaster = true;
+ //                signaler.signal({
+ //                	kind: 'broadcast',
+ //                	data: {
+ //                		roomid: signaler.roomid,
+ //                    	broadcasting: true
+ //                	}
+ //                });
+	//         };
+
+	//         // called for each new participant
+	//         this.join = function(_config) {
+	//             signaler.roomid = _config.roomid;
+	//             this.signal({
+	//             	kind: 'participate',
+	//                 data: {
+	//                 	participationRequest: true,
+	//                 	to: _config.to
+	//                 }
+	//             });
+	//             signaler.sentParticipationRequest = true;
+	//         };
+
+	//         unloadHandler(userid, signaler);
+	//     }
+
+	//     // reusable stuff
+	//     var RTCPeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+	//     var RTCSessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
+	//     var RTCIceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
+
+	//     navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
+	//     window.URL = window.webkitURL || window.URL;
+
+	//     var isFirefox = !!navigator.mozGetUserMedia;
+	//     var isChrome = !!navigator.webkitGetUserMedia;
+
+	//     var STUN = {
+	//         url: isChrome ? 'stun:stun.l.google.com:19302' : 'stun:23.21.150.121'
+	//     };
+
+	//     var TURN = {
+	//         url: 'turn:webrtc%40live.com@numb.viagenie.ca',
+	//         credential: 'muazkh'
+	//     };
+
+	//     var iceServers = {
+	//         iceServers: [STUN]
+	//     };
+
+	//     if (isChrome) {
+	//         if (parseInt(navigator.userAgent.match( /Chrom(e|ium)\/([0-9]+)\./ )[2]) >= 28)
+	//             TURN = {
+	//                 url: 'turn:numb.viagenie.ca',
+	//                 credential: 'muazkh',
+	//                 username: 'webrtc@live.com'
+	//             };
+
+	//         // No STUN to make sure it works all the time!
+	//         iceServers.iceServers = [TURN];
+	//     }
+
+	//     var optionalArgument = {
+	//         optional: [{
+	//             DtlsSrtpKeyAgreement: true
+	//         // RtpDataChannels: true
+	//         }]
+	//     };
+
+	//     var offerAnswerConstraints = {
+	//         optional: [],
+	//         mandatory: {
+	//             OfferToReceiveAudio: true,
+	//             OfferToReceiveVideo: false
+	//         }
+	//     };
+
+
+	//     /*
+	//     var offer = Offer.createOffer(config);
+	//     offer.setRemoteDescription(sdp);
+	//     offer.addIceCandidate(candidate);
+	//     */
+	//     var Offer = {
+	//         createOffer: function(config) {
+	//             var peer = new RTCPeerConnection(iceServers, optionalArgument);
+
+	//             if (config.stream) peer.addStream(config.stream);
+	//             if (config.onaddstream)
+	//                 peer.onaddstream = function(event) {
+	//                     config.onaddstream(event.stream, config.to);
+	//                 };
+	//             if (config.onicecandidate)
+	//                 peer.onicecandidate = function(event) {
+	//                     if (event.candidate) config.onicecandidate(event.candidate, config.to);
+	//                 };
+
+	//             peer.createOffer(function(sdp) {
+	//                 peer.setLocalDescription(sdp);
+	//                 if (config.onsdp) config.onsdp(sdp, config.to);
+	//             }, null, offerAnswerConstraints);
+
+	//             this.peer = peer;
+
+	//             return this;
+	//         },
+	//         setRemoteDescription: function(sdp) {
+	//             this.peer.setRemoteDescription(new RTCSessionDescription(sdp));
+	//         },
+	//         addIceCandidate: function(candidate) {
+	//             this.peer.addIceCandidate(new RTCIceCandidate({
+	//                 sdpMLineIndex: candidate.sdpMLineIndex,
+	//                 candidate: candidate.candidate
+	//             }));
+	//         }
+	//     };
+
+	//     /*
+	//     var answer = Answer.createAnswer(config);
+	//     answer.setRemoteDescription(sdp);
+	//     answer.addIceCandidate(candidate);
+	//     */
+	//     var Answer = {
+	//         createAnswer: function(config) {
+	//             var peer = new RTCPeerConnection(iceServers, optionalArgument);
+
+	//             if (config.stream) peer.addStream(config.stream);
+	//             if (config.onaddstream)
+	//                 peer.onaddstream = function(event) {
+	//                     config.onaddstream(event.stream, config.to);
+	//                 };
+	//             if (config.onicecandidate)
+	//                 peer.onicecandidate = function(event) {
+	//                     if (event.candidate) config.onicecandidate(event.candidate, config.to);
+	//                 };
+
+	//             peer.setRemoteDescription(new RTCSessionDescription(config.sdp));
+	//             peer.createAnswer(function(sdp) {
+	//                 peer.setLocalDescription(sdp);
+	//                 if (config.onsdp) config.onsdp(sdp, config.to);
+	//             }, null, offerAnswerConstraints);
+
+	//             this.peer = peer;
+
+	//             return this;
+	//         },
+	//         addIceCandidate: function(candidate) {
+	//             this.peer.addIceCandidate(new RTCIceCandidate({
+	//                 sdpMLineIndex: candidate.sdpMLineIndex,
+	//                 candidate: candidate.candidate
+	//             }));
+	//         }
+	//     };
+
+	//     function unloadHandler(userid, signaler) {
+	//         window.onbeforeunload = function() {
+	//             leaveRoom();
+	//             // return 'You\'re leaving the session.';
+	//         };
+
+	//         window.onkeyup = function(e) {
+	//             if (e.keyCode == 116)
+	//                 leaveRoom();
+	//         };
+
+	//         var anchors = document.querySelectorAll('a'),
+	//             length = anchors.length;
+	//         for (var i = 0; i < length; i++) {
+	//             var a = anchors[i];
+	//             if (a.href.indexOf('#') !== 0 && a.getAttribute('target') != '_blank')
+	//                 a.onclick = function() {
+	//                     leaveRoom();
+	//                 };
+	//         }
+
+	//         function leaveRoom() {
+	//             signaler.signal({
+	//             	kind: 'leaving',
+	//             	data: {
+	//             		leaving: true
+	//             	}
+	//             });
+	//         }
+	//     }
+	// };
 
 	// SOAPBOX.codelab = function() {
 	// 	var isChannelReady;
