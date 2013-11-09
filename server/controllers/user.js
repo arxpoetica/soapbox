@@ -7,7 +7,7 @@ var User = mongoose.model('User');
 
 var self = module.exports = {
 
-	getUser: function(email, callback) {
+	createUser: function(email, callback) {
 
 		var query = User.findOne({ 'email': email });
 

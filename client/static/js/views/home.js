@@ -21,11 +21,9 @@
 					localStorage.setItem('email', email);
 					localStorage.setItem('avatarURL', user.avatarURL);
 					localStorage.setItem('profileJSON', user.profileJSON);
-					localStorage.setItem('email', user.email);
 					// localStorage.setItem('reputation', user.reputation);
 					location.href = '/box/nko';
 				});
-
 
 			}
 		});
