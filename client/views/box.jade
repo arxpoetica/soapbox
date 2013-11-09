@@ -18,10 +18,11 @@ block append content
 	//- 		td
 	//- 			h2 Remote Media Streams
 	//- 			section#remote-media-streams
+	audio
 
 block append scripts-plugins
 	script(src='#{cloudPath}socket.io/socket.io.js')
-	//- script(src='#{cloudPath}js/libs/webrtc.js')
+	script(src='#{cloudPath}js/libs/adapter.js')
 	//- script(src='#{cloudPath}js/libs/firebase.js')
 
 block append scripts-views

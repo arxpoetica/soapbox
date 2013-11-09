@@ -9,6 +9,7 @@
 		console.log('box', options);
 		SOAPBOX.initSocket();
 		SOAPBOX.initChat();
+		SOAPBOX.initStream();
 
 	};
 
@@ -60,6 +61,22 @@
 			}
 		});
 
+	};
+
+	SOAPBOX.initStream = function() {
+		var constraints = {audio: true, video: false};
+
+		navigator.getUserMedia(constraints, handleUserMedia, handleUserMediaError);
+
+		function handleUserMediaError(error){
+			console.log('getusermedia error: ', error);
+		}
+
+		function handleUserMedia(stream) {
+			var audio = document.querySelector('audio');
+			attachMediaStream(audio, stream);
+			audio.play();
+		}
 	};
 
 	SOAPBOX.WHATISTHIS = function() {
