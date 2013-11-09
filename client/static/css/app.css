@@ -643,7 +643,7 @@ html {
 }
 body {
   margin: 0;
-  padding: 83px 15px 15px;
+  padding: 83px 15px 65px;
   color: #a52a2a;
   background-color: #fff;
   font: 2.8rem/1.5 'Quattrocento Sans', Arial, sans-serif;
@@ -713,7 +713,7 @@ footer * {
   font-size: 12px;
 }
 .chatBox {
-  width: 40%;
+  width: 33%;
 }
 #chatInput {
   width: 100%;

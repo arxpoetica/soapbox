@@ -87,4 +87,16 @@ server = app.listen(port, function(err) {
 
 	console.log('Express server listening @ http://%s:%d/ in '.green + '%s'.green.inverse + ' mode\n'.green, local.address, local.port, app.settings.env);
 
+	// hook up the sockets
+	var io = exports.io = socketLayer.listen(server);
+
+	// // making it work with long polling for ??? (might not be needed)
+	// io.configure(function() {
+	// 	io.set('transports', ['xhr-polling']);
+	// 	io.set('polling duration', 10);
+	// });
+
+	// when sockets are running, pass the variable along to controllers
+	require(rootDir + '/server/controllers/soapbox').attachSocketLayer(io);
+
 });
