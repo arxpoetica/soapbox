@@ -4,7 +4,7 @@
 require('nko')('v9cXBZpDnEFeug5f');
 
 var isProduction = (process.env.NODE_ENV === 'production');
-var rootDir = isProduction === true ? '/home/deploy' : process.cwd();
+var rootDir = isProduction === true ? '/home/deploy/current' : process.cwd();
 
 var http = require('http');
 var path = require('path');

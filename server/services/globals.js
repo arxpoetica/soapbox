@@ -1,4 +1,5 @@
-var rootDir = process.cwd();
+var isProduction = (process.env.NODE_ENV === 'production');
+var rootDir = isProduction === true ? '/home/deploy/current' : process.cwd();
 var config = require(rootDir + '/config');
 var nodeEnv = config.get('ENVIRONMENT');
 var now = new Date();
