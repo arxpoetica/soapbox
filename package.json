@@ -2,9 +2,9 @@
   "name": "nko4-xyzzy",
   "version": "0.0.0",
   "description": "xyzzy",
-  "main": "server.js",
+  "main": "./bin/server",
   "scripts": {
-    "start": "node server.js"
+    "start": "node ./bin/server"
   },
   "repository": {
     "type": "git",
