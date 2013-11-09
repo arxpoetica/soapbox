@@ -260,7 +260,7 @@ select
 	margin 0
 	padding 0 7px
 	height 25px
-	border 0 none
+	border 1px solid $linkColor
 	color #222
 	vertical-align middle
 	$transition(all 0.2s linear 0s)
@@ -269,12 +269,12 @@ select
 		outline 0 none
 input
 	@extends select
-	font-style italic
+	// font-style italic
 input[type="text"]
 input[type="password"]
 input[type="email"]
 input[type="search"]
-	width 206px
+	width 200px
 textarea
 	@extends select
 	vertical-align top

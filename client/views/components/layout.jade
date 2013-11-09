@@ -1,8 +1,4 @@
-//- - var globals = JSON.parse(globals);
 - var cloudPath = globals.cloudPath;
-//- - var baseUrl = globals.baseUrl;
-
-
 !!! 5
 html(class='no-js', lang='en')
 	head
@@ -13,13 +9,16 @@ html(class='no-js', lang='en')
 
 	body
 
+		//- script var SOAPBOX = !{JSON.stringify(globals)};
+
 		//- #content.clearfix
 
 		include ../includes/header
-		//- .container
-		block content
-		//- 	include ../includes/side
-		//- 	include ../includes/footer
+		.container
+			block content
+			//- include ../includes/side
+
+		include ../includes/footer
 
 		.javascripts
 			include ../includes/javascript
