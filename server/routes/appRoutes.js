@@ -1,6 +1,3 @@
-var rootDir = process.cwd();
-
-
 var self = module.exports = {
 
 	setRoutes: function(app) {
