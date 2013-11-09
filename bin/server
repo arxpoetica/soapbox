@@ -50,7 +50,7 @@ app.configure(function() {
 	// app.use(stylus.middleware(rootDir + '/client'));
 	// app.use(express.static(path.join(rootDir, 'client')));
 
-	// app.use(express.static(path.join(rootDir, 'client/static')));
+	app.use(express.static(path.join(rootDir, 'client/static')));
 });
 
 app.configure('development', function() {

@@ -9,7 +9,7 @@ var self = module.exports = {
 
 		app.get('/', function(req, res) {
 			res.render('app', {
-				title: 'SocketStream',
+				title: 'Soapbox',
 				globals: globals
 			});
 		});
@@ -17,14 +17,12 @@ var self = module.exports = {
 		// 404'd
 		app.use(function(req, res, next) {
 			// res.send(404, 'Sorry cant find that!');
-			globals.SocketStream = false;
 			res.render('404', {
 				title: '404 - Page Not Found',
 				globals: globals
 			});
 		});
 
-	},
-
+	}
 
 };

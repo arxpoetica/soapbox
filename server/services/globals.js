@@ -14,8 +14,8 @@ var _globals = {
 		String(now.getMinutes()) +
 		String(now.getSeconds()) : version,
 	nodeEnv: nodeEnv,
-	// cloudPath: config.get('CLOUD_PATH'),
-	// baseUrl: config.get('BASE_URL')
+	cloudPath: config.get('CLOUD_PATH'),
+	baseUrl: config.get('BASE_URL')
 };
 
 var self = module.exports = {
