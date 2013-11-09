@@ -97,6 +97,6 @@ server = app.listen(port, function(err) {
 	// });
 
 	// when sockets are running, pass the variable along to controllers
-	require(rootDir + '/server/controllers/soapbox').attachSocketLayer(io);
+	require(rootDir + '/server/services/soapbox').attachSocketLayer(io);
 
 });
