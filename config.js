@@ -14,5 +14,6 @@ nconf.argv().env().file({
 });
 
 nconf.set('ENVIRONMENT', env);
+nconf.set('VERSION', json.version.replace(/\./g, '_'));
 
 module.exports = nconf;
