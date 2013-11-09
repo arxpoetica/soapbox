@@ -17,6 +17,16 @@ var self = module.exports = {
 			});
 		});
 
+		app.get('/api/listUsers', function(req, res) {
+			UserController.list(function(users) {
+				res.render('api/json', {
+					jsonObject: {
+						users: users
+					}
+				});
+			});
+		});
+
 	}
 
 };

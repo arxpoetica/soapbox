@@ -1,3 +1,6 @@
+var rootDir = process.env.NODE_ENV === 'production' ? '/home/deploy/current' : process.cwd();
+var UserController = require(rootDir + '/server/controllers/user');
+
 var self = module.exports = {
 
 	setRoutes: function(app) {
@@ -16,6 +19,16 @@ var self = module.exports = {
 			res.render('box', {
 				title: 'Box ' + req.params.roomId + ' | Soapbox',
 				globals: globals
+			});
+		});
+
+		app.get('/leaders/', function(req, res) {
+			UserController.list(function(users) {
+				res.render('leaders', {
+					title: 'Leaders | Soapbox',
+					globals: globals,
+					users: users
+				});	
 			});
 		});
 

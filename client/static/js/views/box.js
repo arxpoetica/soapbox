@@ -1,7 +1,7 @@
 (function() {
 
 	// private variables
-	var _socket, $chatInput, $chatLog, _room, _id;
+	var _socket, $chatInput, $chatLog, _room, _id, _meeting;
 
 	SOAPBOX.initBox = function(options) {
 
@@ -19,9 +19,9 @@
 
 		if (!_room) {
 			//hard code 1 room for now
-			_room = 'box1';
+			_room = 'nko';
 			//random id
-			var _id = Math.random().toString(36).slice(2);
+			_id = Math.random().toString(36).slice(2);
 			_socket.emit('join', {room: _room, id: _id});
 		}
 
@@ -34,13 +34,17 @@
 			console.log('new soapboxer: ' + data.id);
 		});
 
-		_socket.on('join', function (num) {
-			console.log('position: ', num);
-			SOAPBOX.initStream(num);
+		_socket.on('join', function (users) {
+			console.log('users: ', users);
+			SOAPBOX.initStream(users[0]);
 		});
 
 		_socket.on('message', function (message) {
-			meeting.newMessage(message);
+			_meeting.newMessage(message);
+		});
+
+		_socket.on('shareStream', function (data) {
+			console.log(data);
 		});
 	};
 
@@ -100,25 +104,25 @@
 	// 	}
 	// };
 
-	SOAPBOX.initStream = function(numUsers) {
-		var meeting = new Meeting('box1');
+	SOAPBOX.initStream = function(current) {
+		_meeting = new Meeting('box1');
 		var remoteMediaStreams = document.getElementById('remote-media-stream');
 		var localMediaStream = document.getElementById('local-media-stream');
 
 		// on getting media stream
-		meeting.onaddstream = function(e) {
+		_meeting.onaddstream = function(e) {
 			if (e.type == 'local') localMediaStream.appendChild(e.audio);
 			if (e.type == 'remote') remoteMediaStreams.insertBefore(e.audio, remoteMediaStreams.firstChild);
 		};
 
 		// if someone leaves; just remove his audio
-		meeting.onuserleft = function(userid) {
+		_meeting.onuserleft = function(userid) {
 			var audio = document.getElementById(userid);
 			if (audio) audio.parentNode.removeChild(audio);
 		};
 		
 		//see if they should broadcast or not
-		meeting.setup(numUsers);
+		_meeting.setup(current);
 
 		// document.getElementById('setup-new-meeting').onclick = function() {
 		// 	// setup new meeting box
@@ -145,6 +149,10 @@
 
 	        this.newMessage = function(message) {
 	        	signaler.onmessage(message);
+	        }
+
+	        this.newSDP = function(sdp) {
+	        	singlaer.onsdp(sdp);
 	        }
 
 	        function initSignaler() {
@@ -184,14 +192,15 @@
 	        }
 
 	        // setup new meeting room
-	        this.setup = function(num) {
+	        this.setup = function(current) {
 	        	captureUserMedia(function() {
 	        		!signaler && initSignaler();
-	                if(num > 0) {
-	                	// signaler.join({
-		                //     to: room.userid,
-		                //     roomid: room.roomid
-		                // });
+	        		//you are not alone!
+	                if(current !== _id) {
+	                	signaler.join({
+		                    to: current,
+		                    roomid: _room
+		                });
 	                } else {
 	                	signaler.broadcast({
 		                    roomid: _room
@@ -209,10 +218,9 @@
 
             // method to signal the data
             this.signal = function(data) {
-                data.userid = _id;
-                _socket.send(JSON.stringify(data));
+                data.data.userid = _id;
+                _socket.emit(data.kind, data.data);
             };
-        
 
 	        // unique identifier for the current user
 	        var userid = _id;
@@ -228,34 +236,41 @@
 
 	        // it is called when your signaling implementation fires "onmessage"
 	        this.onmessage = function(message) {
+	        	console.log(message);
 	            // if new room detected
-	            if (message.roomid && message.broadcasting && !signaler.sentParticipationRequest)
-	                root.onmeeting(message);
+	            if (message.roomid && message.broadcasting && !signaler.sentParticipationRequest) {
+	            	root.onmeeting(message);
+	            } else {
+		            // if someone shared SDP
+		            if (message.sdp && message.to === userid) {
+		            	console.log('sdp');
+		                this.onsdp(message);
+		            }
 
-	            else
-	                // for pretty logging
-	                console.debug(JSON.stringify(message, function(key, value) {
-	                    if (value.sdp) {
-	                        console.log(value.sdp.type, '————', value.sdp.sdp);
-	                        return '';
-	                    } else return value;
-	                }, '————'));
+		            // if someone shared ICE
+		            if (message.candidate && message.to === userid) {
+		            	console.log('ice');
+		                this.onice(message);
+		            }
 
-	            // if someone shared SDP
-	            if (message.sdp && message.to == userid)
-	                this.onsdp(message);
+		            // if someone sent participation request
+		            if (message.participationRequest && message.to === userid) {
+		            	console.log('request');
+		                var _options = options;
+		                _options.to = message.userid;
+		                _options.stream = root.stream;
+		                peers[message.userid] = Offer.createOffer(_options);
+		                //um respond?
+		                var shareMyShit = peers[message.userid];
 
-	            // if someone shared ICE
-	            if (message.candidate && message.to == userid)
-	                this.onice(message);
+		                console.log(shareMyShit);
+	                	shareMyShit.from = userid;
+	                	shareMyShit.to = message.userid;
 
-	            // if someone sent participation request
-	            if (message.participationRequest && message.to == userid) {
-	                var _options = options;
-	                _options.to = message.userid;
-	                _options.stream = root.stream;
-	                peers[message.userid] = Offer.createOffer(_options);
-	            }
+		                _socket.emit('shareStream', shareMyShit);
+
+		            }
+		        }
 	        };
 
 	        // if someone shared SDP
@@ -299,14 +314,20 @@
 	        var options = {
 	            onsdp: function(sdp, to) {
 	                signaler.signal({
-	                    sdp: sdp,
-	                    to: to
+	                	kind: 'sdp',
+	                    data: {
+	                    	sdp: sdp,
+	                    	to: to
+	                    }
 	                });
 	            },
 	            onicecandidate: function(candidate, to) {
 	                signaler.signal({
-	                    candidate: candidate,
-	                    to: to
+	                	kind: 'candidate',
+	                    data: {
+	                    	candidate: candidate,
+	                    	to: to
+	                    }
 	                });
 	            },
 	            onaddstream: function(stream, _userid) {
@@ -345,20 +366,23 @@
 	            signaler.roomid = _config.roomid;
 	            signaler.isbroadcaster = true;
                 signaler.signal({
-                    roomid: signaler.roomid,
-                    broadcasting: true
+                	kind: 'broadcast',
+                	data: {
+                		roomid: signaler.roomid,
+                    	broadcasting: true
+                	}
                 });
-
-	            // if broadcaster leaves; clear all JSON files from Firebase servers
-	            if (_socket.onDisconnect) _socket.onDisconnect().remove();
 	        };
 
 	        // called for each new participant
 	        this.join = function(_config) {
 	            signaler.roomid = _config.roomid;
 	            this.signal({
-	                participationRequest: true,
-	                to: _config.to
+	            	kind: 'participate',
+	                data: {
+	                	participationRequest: true,
+	                	to: _config.to
+	                }
 	            });
 	            signaler.sentParticipationRequest = true;
 	        };
@@ -413,7 +437,7 @@
 	        optional: [],
 	        mandatory: {
 	            OfferToReceiveAudio: true,
-	            OfferToReceiveVideo: true
+	            OfferToReceiveVideo: false
 	        }
 	    };
 
@@ -517,7 +541,10 @@
 
 	        function leaveRoom() {
 	            signaler.signal({
-	                leaving: true
+	            	kind: 'leaving',
+	            	data: {
+	            		leaving: true
+	            	}
 	            });
 	        }
 	    }
