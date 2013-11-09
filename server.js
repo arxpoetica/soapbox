@@ -3,8 +3,7 @@
 // https://github.com/nko4/website/blob/master/module/README.md#nodejs-knockout-deploy-check-ins
 require('nko')('v9cXBZpDnEFeug5f');
 
-var nodeEnv = config.get('ENVIRONMENT');
-var rootDir = nodeEnv === 'production' ? '/home/deploy' : process.cwd();
+var rootDir = process.cwd();
 
 var http = require('http');
 var path = require('path');
@@ -13,6 +12,7 @@ var stylus = require('stylus');
 var app = exports.app = express();
 
 var config = require(rootDir + '/config');
+var nodeEnv = config.get('ENVIRONMENT');
 var port = nodeEnv === 'production' ? 80 : config.get('PORT');
 // console.log(port, nodeEnv);
 
