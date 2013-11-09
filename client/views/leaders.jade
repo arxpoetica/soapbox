@@ -4,9 +4,15 @@ block append content
 	section
 		h2 Who's on first?
 		table(border='1')
-		tr
-			th Username
-			th Reputation
-		tr
-			td Matt Warren
-			td 9001
+			tr
+				th Username
+				th Reputation
+			each user in users
+				tr
+					td
+						img(src=user.avatarURL)
+					td= user.reputation
+
+block append scripts-views
+	script(src='#{cloudPath}js/views/leaders.js')
+	script $(function() { SOAPBOX.initLeaders({}); });
