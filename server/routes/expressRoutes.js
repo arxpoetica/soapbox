@@ -14,10 +14,10 @@ var self = module.exports = {
 			});
 		});
 
-		app.get('/boxes/:roomId', function(req, res) {
+		app.get('/box/:roomId', function(req, res) {
 			console.log(req.params);
 			res.render('box', {
-				title: 'Room ' + req.params.roomId + ' | Soapbox',
+				title: 'Box ' + req.params.roomId + ' | Soapbox',
 				globals: globals
 			});
 		});
