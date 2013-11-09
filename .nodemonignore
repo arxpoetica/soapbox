@@ -1,0 +1,9 @@
+.monitor
+.DS_Store
+Thumbs.db
+/node_modules/
+*.sublime-*
+*.git
+.gitignore
+.npmignore
+*.log

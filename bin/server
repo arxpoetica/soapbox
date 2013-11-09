@@ -1,11 +1,29 @@
 #!/usr/bin/env node
 
+console.log('\n\n');
+console.log('      ___ ___ ___ ___| |_ ___ _ _');
+console.log('     |_ -| . | .\'| . | . | . |_\'_|');
+console.log('     |___|___|__,|  _|___|___|_,_|');
+console.log('                 |_|');
+console.log('\n\n');
+
 // https://github.com/nko4/website/blob/master/module/README.md#nodejs-knockout-deploy-check-ins
 require('nko')('v9cXBZpDnEFeug5f');
 
-var isProduction = (process.env.NODE_ENV === 'production');
+var rootDir = process.cwd();
+
 var http = require('http');
-var port = (isProduction ? 80 : 8000);
+// var path = require('path');
+var express = require('express');
+var stylus = require('stylus');
+var app = exports.app = express();
+
+var config = require(rootDir + '/config');
+var nodeEnv = config.get('ENVIRONMENT');
+var port = nodeEnv === 'production' ? 80 : config.get('PORT');
+// console.log(port, nodeEnv);
+
+// var server;
 
 http.createServer(function(req, res) {
 	// http://blog.nodeknockout.com/post/35364532732/protip-add-the-vote-ko-badge-to-your-app
@@ -33,11 +51,3 @@ http.createServer(function(req, res) {
 
 	console.log('Server running at http://0.0.0.0:' + port + '/');
 });
-
-
-
-// EXAMPLE:
-var rootDir = process.cwd(),
-	config = require(rootDir + '/config');
-
-console.log(config.get('MONGO_HOST'));
