@@ -2,11 +2,10 @@ var rootDir = process.cwd();
 var config = require(rootDir + '/config');
 var nodeEnv = config.get('ENVIRONMENT');
 var now = new Date();
-
-
+var version = config.get('VERSION');
 
 var _globals = {
-	version: config.get('VERSION'),
+	version: version,
 	CACHE: nodeEnv === 'development' ? String(now.getFullYear()) +
 		String(now.getMonth()) +
 		String(now.getDate()) +
