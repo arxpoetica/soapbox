@@ -36,6 +36,7 @@
 
 		_socket.on('join', function (users) {
 			console.log('users: ', users);
+			SOAPBOX.initStream();
 			//SOAPBOX.initStream(users[0]);
 		});
 
@@ -81,6 +82,57 @@
 				});
 			}
 		});
+
+	};
+
+	SOAPBOX.initStream = function() {
+		// Muaz Khan     - https://github.com/muaz-khan
+        // MIT License   - https://www.webrtc-experiment.com/licence/
+        // Documentation - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/RTCMultiConnection
+
+        var connection = new RTCMultiConnection();
+        connection.session = {
+            audio: true,
+            video: true
+        };
+        connection.enableSessionReinitiation = false;
+        connection.openSignalingChannel = function(config) {
+            // var channel = config.channel || this.channel;
+            // var SIGNALING_SERVER = 'http://' + SOAPBOX.baseUrl;
+            var sender = Math.round(Math.random() * 999999999) + 999999999;
+
+            // io.connect(SIGNALING_SERVER).emit('new-channel', {
+            //     channel: channel,
+            //     sender: sender
+            // });
+
+            // var socket = io.connect(SIGNALING_SERVER + channel);
+            // _socket.channel = channel;
+            _socket.on('connect', function() {
+                if (config.callback) config.callback(_socket);
+            });
+
+            _socket.send = function(message) {
+                _socket.emit('message', {
+                    sender: sender,
+                    data: message
+                });
+            };
+
+            _socket.on('message', config.onmessage);
+        };
+
+        connection.onstream = function(e) {
+			document.body.appendChild(e.mediaElement);
+    	};
+
+	    connection.onstreamended = function(e) {
+	        if (e.mediaElement.parentNode) e.mediaElement.parentNode.removeChild(e.mediaElement);
+	    };
+
+	    connection.connect();
+
+	    connection.open();
 
 	};
 
