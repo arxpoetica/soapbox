@@ -49,10 +49,9 @@ app.configure(function() {
 	app.use(express.cookieParser('your secret here'));
 	app.use(express.session());
 	app.use(app.router);
-	// FIXME: (stylus)
-	// app.use(stylus.middleware(rootDir + '/client'));
+	// FIXME: (stylus) ???
+	app.use(stylus.middleware(rootDir + '/client/static'));
 	// app.use(express.static(path.join(rootDir, 'client')));
-
 	app.use(express.static(path.join(rootDir, 'client/static')));
 });
 

@@ -1,0 +1,722 @@
+@charset 'utf-8';
+::selection {
+  background: #76f9ff;
+  color: #76f9ff;
+  text-shadow: none;
+}
+a {
+  color: #76f9ff;
+  text-decoration: none;
+  cursor: pointer;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:focus {
+  outline: thin dotted;
+}
+a:hover,
+a:active {
+  outline: 0;
+}
+b,
+strong {
+  font-weight: bold;
+}
+em,
+i {
+  font-style: italic;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+pre,
+code,
+kbd,
+samp {
+  font: 1em/1 monospace, sans-serif;
+  margin: 0 0 1em;
+  padding: 1em;
+}
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+ins {
+  background-color: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+mark {
+  background-color: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+del {
+  text-decoration: line-through;
+}
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+dfn {
+  font-style: italic;
+}
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+small {
+  font-size: 85%;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+  display: block;
+}
+audio,
+canvas,
+video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+audio:not([controls]) {
+  display: none;
+}
+[hidden] {
+  display: none;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+figure {
+  margin: 0;
+}
+p {
+  margin: 0 0 1em;
+}
+.smallText {
+  font-size: 0.8em;
+  line-height: 1.2;
+}
+h1 {
+  margin: 0 0 0.2em;
+  font: 700 4.8rem/1.2 'Asul', Arial, sans-serif;
+  text-transform: uppercase;
+}
+h1 small {
+  font-size: 2.4rem;
+  text-transform: none;
+}
+h2 {
+  margin: 0;
+  font: 700 2.4rem/1.2 'Asul', Arial, sans-serif;
+}
+h3 {
+  margin: 2em 0 1em;
+  font: 700 1.3em/1.2 'Asul', Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+h4 {
+  margin: 0;
+  font: 700 3rem/1.2 'Asul', Arial, sans-serif;
+  text-transform: uppercase;
+}
+h5 {
+  margin: 1em 0 0.5em;
+  font: 700 2.5em/1.2 'Anaheim', 'Inconsolata', 'Courier New', monospace;
+}
+h6 {
+  margin: 1em 0 0.5em;
+  font: 700 italic 2em/1.2 'Asul', Arial, sans-serif;
+}
+.image.left {
+  margin: 5px 24px 22px -170px;
+}
+.image.right {
+  margin: 5px -170px 22px 24px;
+}
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+  line-height: 0;
+}
+ul {
+  margin: 1em 18px;
+  padding: 0;
+}
+ol {
+  margin: 1em 18px;
+  padding: 0;
+  list-style-type: decimal;
+}
+ul ul {
+  margin: 6px 18px;
+}
+ul ol {
+  margin: 6px 18px;
+}
+ol ol {
+  margin: 6px 18px;
+}
+ol ul {
+  margin: 6px 18px;
+}
+nav {
+  margin: 0 0 1em;
+}
+nav ul {
+  list-style: none;
+  margin: 0;
+}
+nav ol {
+  list-style: none;
+  margin: 0;
+}
+dl {
+  margin: 0 0 1em;
+}
+dt {
+  margin: 1em 0 0;
+}
+dt:first-child {
+  margin: 0;
+}
+dt + dt {
+  margin: 0;
+}
+dd {
+  margin: 0 0 0 3em;
+}
+figure,
+.clip figure,
+.scene figure {
+  left: 50%;
+  margin: 0 0 0 -480px;
+  width: 960px;
+  height: auto;
+  font: 1.6rem/1.4 'Asul', Arial, sans-serif;
+  overflow: visible;
+}
+blockquote {
+  margin: 0 0 1.8rem;
+  font: 400 36px/40px 'Cookie', Baskerville, "Baskerville old face", "Hoefler Text", Garamond, "Times New Roman", serif;
+}
+figcaption {
+  display: block;
+  font: 400 24px/1.25 'Asul', Arial, sans-serif;
+  text-transform: uppercase;
+}
+blockquote figcaption {
+  position: relative;
+  vertical-align: top;
+  white-space: nowrap;
+}
+blockquote figcaption span {
+  display: none;
+}
+blockquote figcaption:after {
+  content: attr(data-text);
+  position: absolute;
+  bottom: -1.4em;
+  right: 1em;
+  text-align: right;
+  width: 3000px;
+}
+figure.smallFigure {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+figure.smallFigure blockquote {
+  font: 400 italic 3rem/4.2rem 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
+}
+figure.smallFigure blockquote + figcaption,
+figure.smallFigure blockquote figcaption {
+  font: 400 2.4rem/3rem 'Asul', Arial, sans-serif;
+}
+table {
+  margin: 0 0 18px;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 0 none;
+  cursor: default;
+}
+caption {
+  margin: 0 0 8px;
+  padding: 0;
+  font: bold 14px/18px 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-align: left;
+  color: #67a4d8;
+}
+th {
+  padding: 8px 12px;
+  vertical-align: bottom;
+  background-color: #f9d573;
+  color: #fff;
+  font: 15px/21px 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
+  letter-spacing: 1.5px;
+  text-shadow: 0 -1px 3px #ccc;
+  text-transform: uppercase;
+  text-align: left;
+  -webkit-transition: background-color ease 0.5s;
+}
+td {
+  padding: 6px 12px;
+  vertical-align: top;
+  border-bottom: 1px solid #929efa;
+  -webkit-transition: background-color ease 0.5s;
+}
+form p {
+  margin: 0 0 0.5em;
+}
+form ol {
+  margin: 0;
+  list-style: none;
+}
+form ul {
+  margin: 0;
+  list-style: none;
+}
+form li {
+  margin: 0 0 0.5em;
+  float: left;
+  width: 100%;
+}
+form li.right {
+  clear: right;
+  float: right;
+  width: 43.6%;
+  margin-right: 6.2%;
+}
+form li.left {
+  clear: left;
+  float: left;
+  width: 50%;
+}
+legend,
+form h2 {
+  border: 0;
+  margin: 0 0 12px;
+  padding: 0;
+  font: 20px/34px 'Asul', Arial, sans-serif;
+  letter-spacing: 1.5px;
+  text-shadow: 0 -1px 3px #ddd;
+  text-transform: uppercase;
+}
+fieldset:first-child {
+  background: none transparent;
+}
+fieldset {
+  margin: 0;
+  padding: 13px 35px 15px;
+  background: url("../img/popup_toc_divider.png") repeat-x 0 0 transparent;
+  border: 0;
+  overflow: hidden;
+}
+.popup fieldset {
+  padding: 0;
+}
+label {
+  float: left;
+  min-height: 34px;
+  width: 40%;
+  margin: 0 5%;
+  vertical-align: middle;
+  cursor: pointer;
+  font: 15px/34px 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
+  letter-spacing: 1.5px;
+  text-shadow: 0 -1px 3px #ddd;
+  text-transform: uppercase;
+}
+label.checkbox,
+label.radio {
+  margin: 0;
+  width: auto;
+  min-height: 0;
+}
+label.checkbox,
+label.radio,
+form .small {
+  font: 14px/18px 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
+  letter-spacing: 0px;
+  text-shadow: none;
+  text-transform: none;
+}
+select,
+input,
+textarea,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+input[type="image"] {
+  margin: 0;
+  padding: 0 7px;
+  height: 25px;
+  border: 0 none;
+  color: #222;
+  vertical-align: middle;
+  -webkit-transition: all 0.2s linear 0s;
+}
+select:focus,
+input:focus,
+textarea:focus,
+button:focus,
+input[type="button"]:focus,
+input[type="reset"]:focus,
+input[type="submit"]:focus,
+input[type="image"]:focus {
+  -webkit-box-shadow: 0 0 12px #fff;
+  box-shadow: 0 0 12px #fff;
+  outline: 0 none;
+}
+input {
+  font-style: italic;
+}
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="search"] {
+  width: 206px;
+}
+textarea {
+  vertical-align: top;
+  min-height: 125px;
+  resize: vertical;
+  overflow: auto;
+}
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+input[type="image"] {
+  padding: 0 8px;
+  background-color: #4d5e7d;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+button:focus,
+input[type="button"]:focus,
+input[type="reset"]:focus,
+input[type="submit"]:focus,
+input[type="image"]:focus,
+button:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover,
+input[type="submit"]:hover,
+input[type="image"]:hover {
+  background-color: #000;
+  -webkit-box-shadow: 0 0 0 transparent;
+  box-shadow: 0 0 0 transparent;
+}
+button[disabled],
+input[type="button"][disabled],
+input[type="reset"][disabled],
+input[type="submit"][disabled],
+input[type="image"][disabled] {
+  cursor: default;
+  background-color: #9a9a9a;
+}
+.radio label,
+.checkbox label {
+  display: inline-block;
+  line-height: 24px;
+  vertical-align: middle;
+}
+input[type="checkbox"],
+input[type="radio"] {
+  margin: 2px 4px 4px;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+input:invalid,
+textarea:invalid,
+.no-boxshadow input:invalid,
+.no-boxshadow textarea:invalid {
+  background-color: #f0dddd;
+}
+@font-face {
+  font-family: "GeneralFoundicons";
+  src: url("$cloudPathfonts/foundicons/general_foundicons.eot?cache=$cache");
+  src: url("$cloudPathfonts/foundicons/general_foundicons.eot?#iefix?cache=$cache") format("embedded-opentype"), url("$cloudPathfonts/foundicons/general_foundicons.woff?cache=$cache") format("woff"), url("$cloudPathfonts/foundicons/general_foundicons.ttf?cache=$cache") format("truetype"), url("$cloudPathfonts/foundicons/general_foundicons.svg#GeneralFoundicons?cache=$cache") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+[class*="foundicon-"] {
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: inherit;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0 0;
+  background-repeat: repeat;
+}
+[class*="foundicon-"]:before {
+  font-family: "GeneralFoundicons";
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+}
+.foundicon-settings:before {
+  content: "\f000";
+}
+.foundicon-heart:before {
+  content: "\f001";
+}
+.foundicon-star:before {
+  content: "\f002";
+}
+.foundicon-plus:before {
+  content: "\f003";
+}
+.foundicon-minus:before {
+  content: "\f004";
+}
+.foundicon-checkmark:before {
+  content: "\f005";
+}
+.foundicon-remove:before {
+  content: "\f006";
+}
+.foundicon-mail:before {
+  content: "\f007";
+}
+.foundicon-calendar:before {
+  content: "\f008";
+}
+.foundicon-page:before {
+  content: "\f009";
+}
+.foundicon-tools:before {
+  content: "\f00a";
+}
+.foundicon-globe:before {
+  content: "\f00b";
+}
+.foundicon-home:before {
+  content: "\f00c";
+}
+.foundicon-quote:before {
+  content: "\f00d";
+}
+.foundicon-people:before {
+  content: "\f00e";
+}
+.foundicon-monitor:before {
+  content: "\f00f";
+}
+.foundicon-laptop:before {
+  content: "\f010";
+}
+.foundicon-phone:before {
+  content: "\f011";
+}
+.foundicon-cloud:before {
+  content: "\f012";
+}
+.foundicon-error:before {
+  content: "\f013";
+}
+.foundicon-right-arrow:before {
+  content: "\f014";
+}
+.foundicon-left-arrow:before {
+  content: "\f015";
+}
+.foundicon-up-arrow:before {
+  content: "\f016";
+}
+.foundicon-down-arrow:before {
+  content: "\f017";
+}
+.foundicon-trash:before {
+  content: "\f018";
+}
+.foundicon-add-doc:before {
+  content: "\f019";
+}
+.foundicon-edit:before {
+  content: "\f01a";
+}
+.foundicon-lock:before {
+  content: "\f01b";
+}
+.foundicon-unlock:before {
+  content: "\f01c";
+}
+.foundicon-refresh:before {
+  content: "\f01d";
+}
+.foundicon-paper-clip:before {
+  content: "\f01e";
+}
+.foundicon-video:before {
+  content: "\f01f";
+}
+.foundicon-photo:before {
+  content: "\f020";
+}
+.foundicon-graph:before {
+  content: "\f021";
+}
+.foundicon-idea:before {
+  content: "\f022";
+}
+.foundicon-mic:before {
+  content: "\f023";
+}
+.foundicon-cart:before {
+  content: "\f024";
+}
+.foundicon-address-book:before {
+  content: "\f025";
+}
+.foundicon-compass:before {
+  content: "\f026";
+}
+.foundicon-flag:before {
+  content: "\f027";
+}
+.foundicon-location:before {
+  content: "\f028";
+}
+.foundicon-clock:before {
+  content: "\f029";
+}
+.foundicon-folder:before {
+  content: "\f02a";
+}
+.foundicon-inbox:before {
+  content: "\f02b";
+}
+.foundicon-website:before {
+  content: "\f02c";
+}
+.foundicon-smiley:before {
+  content: "\f02d";
+}
+.foundicon-search:before {
+  content: "\f02e";
+}
+.nocallout {
+  -webkit-touch-callout: none;
+}
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.gifhidden {
+  position: fixed;
+  left: -100%;
+}
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  *text-indent: -9999px;
+}
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 100%;
+}
+.ir br {
+  display: none;
+}
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+.invisible {
+  visibility: hidden;
+}
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+.clearfix {
+  *zoom: 1;
+}
+.left {
+  float: left;
+}
+.mid {
+  float: left;
+}
+.right {
+  float: right;
+}
+.chromeframe {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+.transparent {
+  opacity: 0;
+}

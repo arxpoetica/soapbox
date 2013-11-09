@@ -1,0 +1,316 @@
+
+
+/* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: >>>>> BASICS */
+
+
+// ::-moz-selection{background:$selectionColor;color:$selectionContrastColor;text-shadow:none;}
+::selection{background:$selectionColor;color:$selectionContrastColor;text-shadow:none;}
+
+// ::-webkit-input-placeholder {color:$placeholderColor;}
+// :-moz-placeholder {color:$placeholderColor;}
+// ::-moz-placeholder {color:$placeholderColor;}
+// :-ms-input-placeholder {color:$placeholderColor;}
+
+
+a
+	color $linkColor
+	text-decoration none
+	cursor pointer
+	&:hover
+		text-decoration underline
+	&:focus
+		outline thin dotted
+	&:hover
+	&:active
+		outline 0
+		// color $linkHoverColor
+// POTENTIAL ALTERNATIVE IS TO USE NO LINKS IN THE APP:
+// aa{color:orange;text-decoration:none;}
+// aa:hover{text-decoration:underline;}
+// aa:focus{outline:thin dotted;}
+// aa:hover,a:active{outline:0;}
+
+b,strong{font-weight:bold;}
+em,i{font-style:italic;}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}
+sup{top:-0.5em;}
+sub{bottom:-0.25em;}
+pre,code,kbd,samp{font:1em/1 monospace,sans-serif;margin:0 0 1em;padding:1em;}
+pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word;}
+ins{background-color:#ff9;color:#000;text-decoration:none;}
+mark{background-color:#ff0;color:#000;font-style:italic;font-weight:bold;}
+del{text-decoration:line-through;}
+abbr[title]{border-bottom:1px dotted;}
+dfn{font-style:italic;}
+hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0;}
+small{font-size:85%;}
+
+
+/* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: >>>>> HTML5 */
+
+
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display:block;}
+audio,canvas,video{display:inline-block;*display:inline;*zoom:1;}
+audio:not([controls]){display:none;}
+[hidden]{display:none;}
+svg:not(:root){overflow:hidden;}
+figure{margin:0;} /* Addresses margin not present */
+
+
+/* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: >>>>> COMMON BLOCK TAGS */
+
+
+p
+	margin 0 0 1em
+.smallText
+	font-size 0.8em
+	line-height: 1.2
+h1
+	margin 0 0 0.2em
+	font 700 4.8rem/1.2 $headerFontFamily
+	text-transform uppercase
+	// $textShadow(2px 2px 4px black)
+	small
+		font-size 2.4rem
+		text-transform none
+h2
+	margin 0
+	font 700 2.4rem/1.2 $headerFontFamily
+	// $textShadow(2px 2px 4px black)
+h3
+	margin 2em 0 1em
+	font 700 1.3em/1.2 $headerFontFamily
+	text-transform uppercase
+	letter-spacing 1.5px
+h4
+	margin 0
+	font 700 3rem/1.2 $headerFontFamily
+	text-transform uppercase
+h5
+	margin 1em 0 0.5em
+	font 700 2.5em/1.2 $fixedWidthFontFamily
+h6
+	margin 1em 0 0.5em
+	font 700 italic 2em/1.2 $headerFontFamily
+
+.image.left{margin:5px 24px 22px -170px;}
+.image.right{margin:5px -170px 22px 24px;}
+img{border:0;-ms-interpolation-mode:bicubic;vertical-align:middle;line-height:0;}
+ul{margin:1em 18px;padding:0;}
+ol{margin:1em 18px;padding:0;list-style-type:decimal;}
+ul ul{margin:6px 18px;}
+ul ol{margin:6px 18px;}
+ol ol{margin:6px 18px;}
+ol ul{margin:6px 18px;}
+nav{margin:0 0 1em;}
+nav ul{list-style:none;margin:0;}
+nav ol{list-style:none;margin:0;}
+dl{margin:0 0 1em;}
+dt{margin:1em 0 0;} /* ??? */
+dt:first-child{margin:0;} /* ??? */
+dt + dt{margin:0;} /* ??? */
+dd{margin:0 0 0 3em;}
+
+figure
+.clip figure
+.scene figure
+	left 50%
+	margin 0 0 0 -480px
+	width 960px
+	height auto
+	font 1.6rem/1.4 $headerFontFamily
+	// background-color rgba(255, 20, 20, 0.3)
+	overflow visible
+blockquote
+	margin 0 0 1.8rem
+	font 400 36px/40px $cookieFontFamily
+figcaption
+	display block
+	font 400 24px/1.25 $headerFontFamily
+	text-transform uppercase
+blockquote figcaption
+	position relative
+	vertical-align top
+	white-space nowrap
+	span
+		display none
+	&:after
+		content attr(data-text)
+		position absolute
+		bottom -1.4em
+		right 1em
+		text-align right	
+		width 3000px
+
+figure.smallFigure
+	margin 0
+	width 100%
+	height 100%
+	blockquote
+		font 400 italic 3rem/4.2rem $libreFontFamily
+		& + figcaption
+		figcaption
+			font 400 2.4rem/3rem $headerFontFamily
+
+table{
+	margin 0 0 18px
+	width 100%
+	border-collapse collapse
+	border-spacing 0
+	border 0 none
+	cursor default
+}
+caption{
+	margin 0 0 8px
+	padding 0
+	font bold 14px/18px $libreFontFamily
+	letter-spacing 1.5px
+	text-transform uppercase
+	text-align:left;
+	color #67a4d8
+}
+th{
+	padding 8px 12px
+	vertical-align:bottom;
+	background-color #f9d573
+	color white
+	font 15px/21px $libreFontFamily
+	letter-spacing 1.5px
+	text-shadow 0 -1px 3px #ccc
+	text-transform uppercase
+	text-align left
+	$transition(background-color ease .5s)
+}
+td{
+	padding 6px 12px
+	vertical-align top
+	border-bottom 1px solid #929efa
+	$transition(background-color ease .5s)
+}
+
+
+/* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: >>>>> FORMS/FORM ELEMENTS */
+
+
+form{}
+form p
+	margin 0 0 .5em
+form ol
+	margin 0
+	list-style none
+form ul
+	margin 0
+	list-style none
+form li
+	margin 0 0 .5em
+	float left
+	width 100%
+form li.right
+	clear right
+	float right
+	width 43.6%
+	margin-right 6.2%
+form li.left
+	clear left
+	float left
+	width 50%
+legend
+form h2
+	border 0
+	margin 0 0 12px
+	padding 0
+	font 20px/34px $headerFontFamily
+	letter-spacing 1.5px
+	text-shadow 0 -1px 3px #ddd
+	text-transform uppercase
+fieldset:first-child
+	background none transparent
+fieldset
+	margin 0
+	padding 13px 35px 15px
+	background url(../img/popup_toc_divider.png) repeat-x 0 0 transparent
+	border 0
+	overflow hidden
+.popup fieldset
+	padding 0
+label
+	float left
+	min-height 34px
+	width 40%
+	margin 0 5%
+	vertical-align middle
+	cursor pointer
+	font 15px/34px $libreFontFamily
+	letter-spacing 1.5px
+	text-shadow 0 -1px 3px #ddd
+	text-transform uppercase
+label.checkbox
+label.radio
+	margin 0
+	width auto
+	min-height 0
+label.checkbox
+label.radio
+form .small
+	font 14px/18px $libreFontFamily
+	letter-spacing 0px
+	text-shadow none
+	text-transform none
+select
+	margin 0
+	padding 0 7px
+	height 25px
+	border 0 none
+	color #222
+	vertical-align middle
+	$transition(all 0.2s linear 0s)
+	&:focus
+		$boxShadow(0 0 12px white)
+		outline 0 none
+input
+	@extends select
+	font-style italic
+input[type="text"]
+input[type="password"]
+input[type="email"]
+input[type="search"]
+	width 206px
+textarea
+	@extends select
+	vertical-align top
+	min-height 125px
+	resize vertical
+	overflow auto
+button
+input[type="button"]
+input[type="reset"]
+input[type="submit"]
+input[type="image"]
+	@extends select
+	padding 0 8px
+	background-color #4d5e7d
+	color white
+	text-align center
+	cursor pointer
+	&:focus
+	&:hover
+		background-color black
+		$boxShadow(0 0 0 transparent)
+button[disabled]
+input[type="button"][disabled]
+input[type="reset"][disabled]
+input[type="submit"][disabled]
+input[type="image"][disabled]
+	cursor default
+	background-color #9a9a9a
+.radio label
+.checkbox label
+	display inline-block
+	line-height 24px
+	vertical-align middle
+input[type="checkbox"],input[type="radio"]{margin:2px 4px 4px;vertical-align:middle;$boxSizing(border-box)}
+input[type="search"]{-webkit-appearance:textfield;$boxSizing(content-box)}
+input[type="search"]::-webkit-search-decoration{-webkit-appearance:none;} /* Corrects inner padding displayed oddly in S5, Chrome on OSX */
+// button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}
+input:invalid,textarea:invalid{$boxShadow(0 0 5px #f00)}
+.no-boxshadow input:invalid,.no-boxshadow textarea:invalid{background-color:#f0dddd;} /* I don't get this...keep??? */
