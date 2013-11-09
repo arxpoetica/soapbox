@@ -39,6 +39,12 @@ var self = module.exports = {
 		User.find({}, function(err, users) {
 			callback(users);
 		});
+	},
+
+	getRankedUsers: function(callback) {
+		User.find({}, function(err, users) {
+			callback(users.sort('field -reputation'));
+		});
 	}
 
 };

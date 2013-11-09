@@ -23,7 +23,7 @@ var self = module.exports = {
 		});
 
 		app.get('/leaders/', function(req, res) {
-			UserController.list(function(users) {
+			UserController.getRankedUsers(function(users) {
 				res.render('leaders', {
 					title: 'Leaders | Soapbox',
 					globals: globals,
