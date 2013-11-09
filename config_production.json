@@ -1,0 +1,7 @@
+{
+	"PORT": 80,
+	"MONGO_HOST": "mongodb://xyzzy:52OquqHspkND@ds045978.mongolab.com/xyzzy",
+	"CLOUD_PATH": "",
+	"BASE_URL": "/"
+}
+
