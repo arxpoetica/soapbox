@@ -22,6 +22,14 @@ var self = module.exports = {
 			});
 		});
 
+		app.get('/leaders', function(req, res) {
+			console.log(req.params);
+			res.render('leaders', {
+				title: 'Leaders | Soapbox',
+				globals: globals
+			});
+		});
+
 		// 404'd
 		app.use(function(req, res, next) {
 			// res.send(404, 'Sorry cant find that!');
