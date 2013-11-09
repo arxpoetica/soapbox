@@ -16,6 +16,8 @@ var nodeEnv = config.get('ENVIRONMENT');
 var port = nodeEnv === 'production' ? 80 : config.get('PORT');
 // console.log(port, nodeEnv);
 
+var socketLayer = require('socket.io');
+
 var server;
 
 require('colors');
@@ -41,7 +43,8 @@ app.configure(function() {
 	app.set('globals', globals.getGlobals());
 	app.use(express.favicon());
 	app.use(express.logger('dev'));
-	app.use(express.bodyParser());
+	app.use(express.json());
+	app.use(express.urlencoded());
 	app.use(express.methodOverride());
 	app.use(express.cookieParser('your secret here'));
 	app.use(express.session());

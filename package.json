@@ -19,7 +19,8 @@
     "stylus": "~0.40.0",
     "nconf": "~0.6.8",
     "colors": "~0.6.2",
-    "mongoose": "~3.8.0"
+    "mongoose": "~3.8.0",
+    "socket.io": "~0.9.16"
   },
   "engines": {
     "node": "0.10.x"
