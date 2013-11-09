@@ -3,7 +3,8 @@
 // https://github.com/nko4/website/blob/master/module/README.md#nodejs-knockout-deploy-check-ins
 require('nko')('v9cXBZpDnEFeug5f');
 
-var rootDir = process.cwd();
+var isProduction = (process.env.NODE_ENV === 'production');
+var rootDir = isProduction === true ? '/home/deploy' : process.cwd();
 
 var http = require('http');
 var path = require('path');
