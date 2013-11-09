@@ -1,10 +1,18 @@
+var mongoose = require('mongoose');
+
 var self = module.exports = {
 
-	init: function(app, mongoose) {
+	init: function() {
+
 
 		var UserSchema = new mongoose.Schema({
-			name: String,
-			email: String
+			email: String,
+			profileJSON: String,
+			avatarURL: String,
+			reputation: {
+				type: Number,
+				default: 100
+			}
 		});
 
 		var ChatSchema = new mongoose.Schema({
