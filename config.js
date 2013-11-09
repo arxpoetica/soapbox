@@ -2,7 +2,8 @@
  * CONFIGURATION OF ENVIRONMENT VARIABLES
  */
 
-var rootDir = process.cwd(),
+var isProduction = (process.env.NODE_ENV === 'production');
+var rootDir = isProduction === true ? '/home/deploy/current' : process.cwd();
 	nconf = require('nconf'),
 	fs = require('fs'),
 	env = require(rootDir + '/bin/server').app.get('env'),
