@@ -1,7 +1,7 @@
 {
 	"PORT": 80,
 	"MONGO_HOST": "mongodb://xyzzy:52OquqHspkND@ds045978.mongolab.com/xyzzy",
-	"CLOUD_PATH": "",
+	"CLOUD_PATH": "http://xyzzy.2013.nodeknockout.com/",
 	"BASE_URL": "xyzzy.2013.nodeknockout.com"
 }
 

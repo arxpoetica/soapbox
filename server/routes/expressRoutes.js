@@ -8,15 +8,16 @@ var self = module.exports = {
 		var globals = app.get('globals');
 
 		app.get('/', function(req, res) {
-			res.render('app', {
+			res.render('home', {
 				title: 'Soapbox',
 				globals: globals
 			});
 		});
 
-        app.get('/rooms', function(req, res) {
-			res.render('rooms', {
-				title: 'Soapbox: Rooms',
+		app.get('/boxes/:roomId', function(req, res) {
+			console.log(req.params);
+			res.render('box', {
+				title: 'Room ' + req.params.roomId + ' | Soapbox',
 				globals: globals
 			});
 		});

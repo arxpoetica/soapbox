@@ -1,0 +1,9 @@
+extends components/layout
+
+//- block append content
+
+//- block append scripts-plugins
+
+block append scripts-views
+	script(src='#{cloudPath}js/views/home.js')
+	script $(function() { SOAPBOX.initHome({}); });

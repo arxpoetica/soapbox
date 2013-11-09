@@ -1,9 +1,0 @@
-extends components/layout
-
-block content
-	.chatBox
-		input#chatInput(type='text', placeholder='Say something...')
-		#chatLog
-
-block scripts-plugins
-	script(src='#{cloudPath}socket.io/socket.io.js')
