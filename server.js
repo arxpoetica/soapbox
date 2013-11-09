@@ -34,7 +34,7 @@ console.log('\n\n');
 var routes = require(rootDir + '/server/routes/expressRoutes');
 var globals = require(rootDir + '/server/services/globals');
 // var helpers = require(rootDir + '/server/services/helpers');
-// var db = require(rootDir + '/server/services/db');
+var db = require(rootDir + '/server/services/db').init(config.get('MONGO_HOST'));
 
 
 app.configure(function() {
