@@ -704,6 +704,15 @@ footer * {
   border: 2px solid #00c8ff;
   overflow: auto;
 }
+.signup .message {
+  display: inline-block;
+  margin: 0 0 0 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #000;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 .nocallout {
   -webkit-touch-callout: none;
 }

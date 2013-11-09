@@ -63,6 +63,10 @@ app.configure('development', function() {
 
 console.log('Express configured.'.green);
 
+require(rootDir + '/server/models/all').init();
+
+console.log('Models registered...'.green);
+
 require(rootDir + '/server/routes/ajaxRoutes').setRoutes(app);
 require(rootDir + '/server/routes/appRoutes').setRoutes(app);
 
