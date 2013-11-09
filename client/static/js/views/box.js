@@ -1,7 +1,7 @@
 (function() {
 
 	// private variables
-	var _socket, $chatInput, $chatLog;
+	var _socket, $chatInput, $chatLog, _room, _id;
 
 	SOAPBOX.initBox = function(options) {
 
@@ -19,8 +19,23 @@
 		$chatInput = $('#chatInput');
 		$chatLog = $('#chatLog');
 
+		if (!_room) {
+			//hard code 1 room for now
+			_room = 'nko';
+			//random id
+			var _id = Math.random().toString(36).slice(2);
+			_socket.emit('join', {room: _room, id: _id});
+		}
+
+		SOAPBOX.setupSocketListeners();
 		// window._socket = _socket;
 
+	};
+
+	SOAPBOX.setupSocketListeners = function() {
+		_socket.on('join', function (id){
+			console.log('new soapboxer: ' + id);
+		});
 	};
 
 	SOAPBOX.initChat = function() {
@@ -75,7 +90,7 @@
 		function handleUserMedia(stream) {
 			var audio = document.querySelector('audio');
 			attachMediaStream(audio, stream);
-			audio.play();
+			// audio.play();
 		}
 	};
 

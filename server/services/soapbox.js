@@ -17,6 +17,17 @@ var self = module.exports = {
 				// });
 			});
 
+			socket.on('message', function (message) {
+				console.log('Got message: ', message);
+				socket.broadcast.emit('message', message);
+			});
+
+			socket.on('join', function (data) {
+				var numClients = io.sockets.clients(data.room).length;
+				console.log('Room ' + data.room + ' has ' + numClients + ' clients');
+				socket.join(data.room);
+				io.sockets.in(data.room).emit('join', data.id);
+			});
 		});
 	}
 
