@@ -95,6 +95,9 @@
             audio: true,
             video: true
         };
+
+        connection.direction = 'one-to-many';
+
         connection.enableSessionReinitiation = false;
         connection.openSignalingChannel = function(config) {
             // var channel = config.channel || this.channel;
