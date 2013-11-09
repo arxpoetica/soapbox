@@ -23,10 +23,16 @@ var self = module.exports = {
 			});
 
 			socket.on('join', function (data) {
+				socket.join(data.room);
 				var numClients = io.sockets.clients(data.room).length;
 				console.log('Room ' + data.room + ' has ' + numClients + ' clients');
-				socket.join(data.room);
-				io.sockets.in(data.room).emit('join', data.id);
+				io.sockets.in(data.room).emit('newUser', {numUsers: numClients, id: data.id});
+				//TODO get queue of ids and pass it back
+				socket.emit('join', numClients);
+			});
+
+			socket.on('broadcast', function (data) {
+				console.log(data);
 			});
 		});
 	}
