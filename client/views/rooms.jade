@@ -1,0 +1,48 @@
+extends components/layout
+
+block append scripts
+    script(src='/libs/webrtc.js')
+    script(src='/libs/firebase.js')
+     
+
+block content
+    h1 Hello world!
+    section
+      h2 Setup a new meeting:
+      button#setup-new-meeting Setup New Meeting
+    table(style='border-left: 1px solid black; width: 100%;')
+      tr
+        td
+          h2(style='display: block; text-align: center;')
+            | Local Media Stream
+          section#local-media-stream
+      tr
+        td
+          h2(style='display: block; text-align: center;')
+            | Remote Media Streams
+          section#remote-media-streams
+    script.
+      var hash = window.location.hash.replace('#', '');
+      var meeting = new Meeting(hash);
+      var remoteMediaStreams = document.getElementById('remote-media-streams');
+      var localMediaStream = document.getElementById('local-media-stream');
+      // on getting media stream
+      meeting.onaddstream = function(e) {
+      if (e.type == 'local') localMediaStream.appendChild(e.audio);
+      if (e.type == 'remote') remoteMediaStreams.insertBefore(e.audio, remoteMediaStreams.firstChild);
+      };
+      // using firebase for signaling
+      meeting.firebase = 'rtcweb';
+      // if someone leaves; just remove his audio
+      meeting.onuserleft = function(userid) {
+      var audio = document.getElementById(userid);
+      if (audio) audio.parentNode.removeChild(audio);
+      };
+      // check pre-created meeting rooms
+      meeting.check();
+      document.getElementById('setup-new-meeting').onclick = function() {
+      // setup new meeting room
+      meeting.setup('meeting room name');
+      this.disabled = true;
+      //this.parentNode.innerHTML = '<h2><a href="' + location.href + '" target="_blank">Share this link</a></h2>';
+      };

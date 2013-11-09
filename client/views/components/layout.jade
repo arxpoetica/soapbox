@@ -6,10 +6,10 @@
 !!! 5
 html(class='no-js', lang='en')
 	head
-
-		include ../includes/head-meta
-		include ../includes/head-styles
-		include ../includes/head-scripts
+		block scripts
+			include ../includes/head-meta
+			include ../includes/head-styles
+			include ../includes/head-scripts
 
 	body
 
@@ -17,7 +17,7 @@ html(class='no-js', lang='en')
 
 		include ../includes/header
 		//- .container
-		//- 	block content
+		block content
 		//- 	include ../includes/side
 		//- 	include ../includes/footer
 
