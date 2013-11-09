@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // https://github.com/nko4/website/blob/master/module/README.md#nodejs-knockout-deploy-check-ins
 require('nko')('v9cXBZpDnEFeug5f');
 
