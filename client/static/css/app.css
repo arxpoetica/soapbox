@@ -639,13 +639,13 @@ html {
   font-size: 10px;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
-  background-color: #ff5200;
+  background-color: #fff;
 }
 body {
   margin: 0;
   padding: 83px 15px 15px;
   color: #a52a2a;
-  background-color: #ff5200;
+  background-color: #fff;
   font: 2.8rem/1.5 'Quattrocento Sans', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -656,15 +656,15 @@ header {
   width: 100%;
   height: 65px;
   background-color: #eaeaea;
-  border-bottom: 3px solid #fff;
+  border-bottom: 3px solid #ddd;
   overflow: hidden;
 }
 .logo {
   display: block;
   float: left;
-  margin: 15px 15px 0;
-  width: 260.5px;
-  height: 37.5px;
+  margin: 10px 15px 0;
+  width: 622px;
+  height: 50px;
   background: url("../img/logo.png") no-repeat 0 0 transparent;
   background-size: 100%;
 }
@@ -695,18 +695,20 @@ header {
 .container {
   padding: 15px;
   min-height: 400px;
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255,82,0,0.1);
 }
 footer {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 30px;
   margin: 15px 0 0;
-  padding: 15px 15px 0;
-  background-color: rgba(255,255,255,0.2);
-  border-top: 3px solid rgba(255,255,255,0.4);
+  padding: 15px;
+  background-color: #eaeaea;
+  border-top: 3px solid #ddd;
+  text-align: right;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 footer * {
   font-size: 12px;
