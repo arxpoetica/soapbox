@@ -7,7 +7,14 @@ var self = module.exports = {
 			email: String
 		});
 
+		var ChatSchema = new mongoose.Schema({
+			gameId: String,
+			user: String,
+			message: String
+		});
+
 		var User = mongoose.model('User', UserSchema);
+		var Chat = mongoose.model('Chat', ChatSchema);
 
 	}
 
