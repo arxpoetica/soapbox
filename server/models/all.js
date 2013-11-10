@@ -12,7 +12,8 @@ var self = module.exports = {
 			reputation: {
 				type: Number,
 				default: 100
-			}
+			},
+			userId: String
 		});
 
 		var ChatSchema = new mongoose.Schema({
