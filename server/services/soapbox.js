@@ -80,14 +80,14 @@ var self = module.exports = {
 				});
 			});
 
-			socket.on('readyToSpeak', function(speaker) {
+			socket.on('readyToSpeak', function(speaker, avatar) {
 				timerService.startTimer(function() {
 					console.log('stop');
 					socket.emit('stopSpeaker', self.speaker.id);
 				});
 				if(self.speaker.id === speaker) {
 					self.speaker.ready = true;
-					socket.broadcast.emit('getSpeakerStream', self.speaker.id);
+					socket.broadcast.emit('getSpeakerStream', self.speaker.id, avatar);
 				}
 			});
 

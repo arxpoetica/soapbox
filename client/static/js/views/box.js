@@ -1,7 +1,9 @@
 (function() {
 
 	// private variables
-	var _socket, $chatInput, $chatLog, _room, _userId, _queue, _calls, _speaker, $up, $down, _stream;
+	var _socket, $chatInput, $chatLog, _room, _userId, _queue, _calls, _speaker, $up, $down, _stream, _avatar;
+
+	var _time = 15;
 
 	var conns = {};
 	SOAPBOX.initBox = function(options) {
@@ -9,8 +11,8 @@
 		// initialize the box here...
 		//TODO do some check if here if they go straight here without logging in?
 
-		// _userId = localStorage.getItem('userId');
-		_userId = localStorage.getItem('email');
+		_userId = localStorage.getItem('userId');
+		_avatar = localStorage.getItem('avatarURL');
 		if(_userId) {
 			SOAPBOX.initSocket();
 			SOAPBOX.initChat();
@@ -66,25 +68,39 @@
 		_socket.on('startSpeaker', function(speaker, name) {
 			_speaker = speaker;
 			if(_speaker === _userId) {
-				_socket.emit('readyToSpeak', _userId);
+				_socket.emit('readyToSpeak', _userId, _avatar);
 				for(var user in conns) {
 					conns[user].unmute();
 				}
-				$('.speaker').hide();
+				$('.votingBooth').hide();
 			} else {
-				$('.speaker').show();
+				$('.votingBooth').show();
 				// $('.speakerName').text(name);
 			}
 		});
 
-		_socket.on('getSpeakerStream', function(speaker) {
+		_socket.on('getSpeakerStream', function(speaker, avatar) {
 			if(!conns[speaker] && speaker !== _userId) {
 				SOAPBOX.getStreamFrom(speaker);
 			}
-			$('.timer').text(15);
+			_time = 15;
+			$('.timer').text(_time);
+			$('.currentAvatar').attr('src', avatar);
+			SOAPBOX.updateTimer();
 		});
 
 		_socket.emit('join', {room: 'nko', id: _userId });
+	};
+
+	SOAPBOX.updateTimer = function() {
+		//TODO ya i know there are better ways deal with it
+		_time -= 1;
+		$('.timer').text(_time);
+		if(_time > 0) {
+			setTimeout(function() {
+				SOAPBOX.updateTimer();
+			},1000);
+		}
 	};
 
 	SOAPBOX.updateStatus = function() {
