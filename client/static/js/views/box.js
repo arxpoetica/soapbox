@@ -35,10 +35,6 @@
 	};
 
 	SOAPBOX.setupSocketListeners = function() {
-		_socket.on('newUser', function (data){
-			console.log('new soapboxer: ' + data.id);
-		});
-
 		_socket.on('join', function (queue) {
 			console.log('queue: ', queue);
 			_queue = queue;
@@ -118,7 +114,6 @@
 			}
 		});
 
-		var name = localStorage.getItem('email');
 		$(".me").show();
 		$(".them").show();
 		$("#whoAmI").remove();
@@ -130,7 +125,7 @@
 			holla.pipe(stream, $(".me"));
 
 			// accept inbound
-			SOAPBOX.serverRTC.register(name, function(worked) {
+			SOAPBOX.serverRTC.register(_userId, function(worked) {
 				SOAPBOX.serverRTC.on("call", function(call) {
 					console.log("Inbound call", call);
 
