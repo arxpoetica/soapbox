@@ -68,6 +68,12 @@ var self = module.exports = {
 							break;
 						}
 					}
+					//if someone leaves while its their turn
+					if(self.speaker.id === data.id) {
+						self.speaker.id = self.users[0];
+						self.speaker.ready = false;
+						socket.broadcast.emit('startSpeaker', self.speaker.id);
+					}
 					socket.broadcast.emit('userLeft', data.id);
 				});
 			});

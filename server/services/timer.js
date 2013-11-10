@@ -11,6 +11,7 @@ var self = module.exports = {
 	startTimer: function(callback) {
 		_callbackToCall = callback;
 		_currentTime = microtime.nowDouble();
+		clearTimeout(_timer);
 		_timer = setTimeout(self.endTimer, _sessionTime, _callbackToCall);
 	},
 
