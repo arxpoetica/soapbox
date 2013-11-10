@@ -763,6 +763,14 @@ table.queue .gravatar {
 .lonely {
   display: none;
 }
+.timer {
+  font-size: 2em;
+  color: #f00;
+}
+.currentAvatar {
+  border-radius: 100px;
+  margin: 20px;
+}
 #whoCall,
 #hangup {
   display: none;

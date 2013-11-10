@@ -110,20 +110,20 @@ var self = module.exports = {
 					// self.users.shift();
 					sessionService.popUser(speaker, self.users.shift(), function(session){
 						// update the queue on the front-end
-						console.log(session.queue);
-					});
-					// self.users.push(speaker);
-					sessionService.pushUser(speaker, speaker, function(session){
-						// update the queue on the front-end
-						console.log(session.queue);
-						self.speaker.id = self.users[0];
-						self.speaker.ready = false;
-						//start new speaker
-						console.log('startNewSpeaker');
-						setTimeout(function() {
-							socket.broadcast.emit('startSpeaker', self.speaker.id);
-							socket.emit('startSpeaker', self.speaker.id);
-						}, 2000);
+						// self.users.push(speaker);
+						sessionService.pushUser(speaker, speaker, function(session){
+							// update the queue on the front-end
+							console.log(session.queue);
+							self.users = session.queue;
+							self.speaker.id = self.users[0];
+							self.speaker.ready = false;
+							//start new speaker
+							console.log('startNewSpeaker');
+							setTimeout(function() {
+								socket.broadcast.emit('startSpeaker', self.speaker.id);
+								socket.emit('startSpeaker', self.speaker.id);
+							}, 2000);
+						});
 					});
 				}
 			});
