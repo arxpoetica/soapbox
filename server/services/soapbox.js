@@ -36,6 +36,20 @@ var self = module.exports = {
 				
 				//respond to user with queue
 				socket.emit('join', self.users);
+
+				socket.on('disconnect', function () {
+					console.log('disconnected: ', data.id);
+					//remove user from queue
+					for(var i = 0; i < self.users.length; i++) {
+						if(self.users[i] === data.id) {
+							var firstHalf = self.users.slice(0,i),
+								secondHalf = self.users.slice(i+1, self.users.length);
+							self.users = firstHalf.concat(secondHalf);
+							break;
+						}
+					}
+					socket.broadcast.emit('userLeft', data.id);
+				});
 			});
 
 			socket.on('broadcast', function (data) {
