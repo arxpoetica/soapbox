@@ -5,12 +5,15 @@ block append content
 		h1 Who's on first?
 		table
 			tr
-				th.center User
+				th
+				//- th.center User <-- uncomment
 				th.center Reputation
 			each user in users
+				//- - var email = user.email.split('') <------ do some JS work here, champ...
 				tr
 					td.center
 						img.gravatar(src=user.avatarURL)
+					//- td.center= email <-- uncomment
 					td.center= user.reputation
 
 block append scripts-views
