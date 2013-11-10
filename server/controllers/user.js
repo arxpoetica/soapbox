@@ -46,7 +46,7 @@ var self = module.exports = {
 		User.find({}, function(err, users) {
 			callback(users.sort('field -reputation'));
 		});
-	}
+	},
 
 	updateUserRep: function(email, reputation, time, callback) {
 		if ( time < 15 ) {
