@@ -21,7 +21,8 @@
     "socket.io": "~0.9.16",
     "mongoose": "~3.8.0",
     "crypto": "0.0.3",
-    "querystring": "~0.2.0"
+    "querystring": "~0.2.0",
+    "holla": "~0.6.2"
   },
   "engines": {
     "node": "0.10.x"

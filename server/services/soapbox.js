@@ -43,6 +43,7 @@ var self = module.exports = {
 			socket.on('shareStream', function(data) {
 				io.sockets.in(data.room).emit('shareStream', data);
 			});
+
 		});
 	}
 

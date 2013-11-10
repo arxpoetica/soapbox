@@ -239,7 +239,6 @@ select
 	vertical-align middle
 	$transition(all 0.2s linear 0s)
 	&:focus
-		$boxShadow(0 0 12px white)
 		outline 0 none
 input
 	@extends select
@@ -261,15 +260,16 @@ input[type="reset"]
 input[type="submit"]
 input[type="image"]
 	@extends select
-	padding 0 8px
-	background-color #4d5e7d
+	height auto
+	padding 6px 12px
+	background-color $linkColor
 	color white
 	text-align center
 	cursor pointer
+	$borderRadius(100%)
 	&:focus
 	&:hover
-		background-color black
-		$boxShadow(0 0 0 transparent)
+		background-color #c00
 button[disabled]
 input[type="button"][disabled]
 input[type="reset"][disabled]

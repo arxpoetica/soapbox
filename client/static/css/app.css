@@ -373,8 +373,6 @@ input[type="button"]:focus,
 input[type="reset"]:focus,
 input[type="submit"]:focus,
 input[type="image"]:focus {
-  -webkit-box-shadow: 0 0 12px #fff;
-  box-shadow: 0 0 12px #fff;
   outline: 0 none;
 }
 input[type="text"],
@@ -394,11 +392,15 @@ input[type="button"],
 input[type="reset"],
 input[type="submit"],
 input[type="image"] {
-  padding: 0 8px;
-  background-color: #4d5e7d;
+  height: auto;
+  padding: 6px 12px;
+  background-color: #ff5200;
   color: #fff;
   text-align: center;
   cursor: pointer;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  background-clip: padding-box;
 }
 button:focus,
 input[type="button"]:focus,
@@ -410,9 +412,7 @@ input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover,
 input[type="image"]:hover {
-  background-color: #000;
-  -webkit-box-shadow: 0 0 0 transparent;
-  box-shadow: 0 0 0 transparent;
+  background-color: #c00;
 }
 button[disabled],
 input[type="button"][disabled],
@@ -719,6 +719,16 @@ footer * {
   -webkit-border-radius: 100%;
   border-radius: 100%;
   background-clip: padding-box;
+}
+#me,
+#them,
+#whoCall,
+#hangup {
+  display: none;
+}
+video {
+  width: 200px;
+  height: 200px;
 }
 .nocallout {
   -webkit-touch-callout: none;
