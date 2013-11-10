@@ -1,7 +1,7 @@
 (function() {
 
 	// private variables
-	var _socket, $chatInput, $chatLog, _room, _userId, _queue;
+	var _socket, $chatInput, $chatLog, _room, _userId, _queue, _calls, _speaker;
 
 	SOAPBOX.initBox = function(options) {
 
@@ -27,24 +27,17 @@
 	};
 
 	SOAPBOX.setupSocketListeners = function() {
-		_socket.on('join', function (queue) {
-			console.log('queue: ', queue);
-			_queue = queue;
-
-			//you are not broadcaster
-			if(_queue[0] !== _userId) {
-				SOAPBOX.getStreamFrom(_queue[0]);
-			}
-			// SOAPBOX.initStream();
-			//SOAPBOX.initStream(users[0]);
-		});
 
 		//add user to queue
-		_socket.on('newUser', function (id) {
-			console.log('new: ', id);
-			if(id !== _userId) {
-				_queue.push(_userId);
+		_socket.on('newUser', function (data) {
+			//check capacity for new user
+			console.log(data);
+			if(data.queue.length > 42 && _userId === data.id) {
+				alert('sorry dude at capacity');
+			} else {
+				_queue = data.queue;
 			}
+			SOAPBOX.updateStatus();
 		});
 
 		_socket.on('userLeft', function (id) {
@@ -54,11 +47,53 @@
 				if(_queue[i] === id) {
 					var firstHalf = _queue.slice(0,i),
 						secondHalf = _queue.slice(i+1, _queue.length);
-					_queue = first.concat(second);
+					_queue = firstHalf.concat(secondHalf);
 					break;
 				}
 			}
 		});
+
+		_socket.on('stopSpeaker', function(speaker) {
+			//who to stop
+			_speaker = speaker;
+			if(_speaker === _userId) {
+				for(var i = 0; i < _calls.length; i++) {
+					_calls[i].end();
+				}
+				_calls = [];
+				_socket.emit('doneSpeaking', _userId);
+			}
+		});
+
+		_socket.on('startSpeaker', function(speaker) {
+			console.log('start: ', speaker);
+			_speaker = speaker;
+			if(_speaker === _userId) {
+				_calls = [];
+				_socket.emit('readyToSpeak', _userId);
+			}
+		});
+
+		_socket.on('getSpeakerStream', function(speaker) {
+			SOAPBOX.getStreamFrom(speaker);
+		});
+
+		_socket.emit('join', {room: 'nko', id: _userId });
+	};
+
+	SOAPBOX.updateStatus = function() {
+		//TODO make this better
+		if (_queue.length < 2) {
+			//not enough people
+			$('.lonely').show();
+		} else {
+			//enough people yay
+			$('.lonely').hide();
+		}
+	};
+
+	SOAPBOX.changeSpeaker = function() {
+
 	};
 
 	SOAPBOX.initChat = function() {
@@ -125,24 +160,20 @@
 		$("#hangup").show();
 
 		holla.createStream({ video: true, audio: false }, function(err, stream) {
-			// console.log('create');
+			console.log('create');
 			if (err) throw err;
 			
 			holla.pipe(stream, $(".me"));
 
 			SOAPBOX.serverRTC.register(_userId, function(worked) {
+				console.log('registered');
 				//dont join queue or receive events UNTIL they accept microphone
 				SOAPBOX.setupSocketListeners();
-				if (!_room) {
-					//hard code 1 room for now
-					_room = 'nko';
-					_socket.emit('join', {room: _room, id: _userId });
-				}
 
 				//receive calls ONLY if you are speaker
 				SOAPBOX.serverRTC.on("call", function(call) {
 					console.log("Inbound call -------");
-					if(_queue[0] === _userId) {
+					if(_speaker === _userId) {
 						console.log("accept");
 						call.addStream(stream);
 						call.answer();
@@ -150,6 +181,7 @@
 							//dont show them, one way baby
 							// holla.pipe(stream, $(".them"));
 						});
+						_calls.push(call);
 						//TODO at some point call.end()
 					} else {
 						console.log("decline");
@@ -202,7 +234,10 @@
 		});
 		call.on("hangup", function() {
 			$(".them").attr('src', '');
+			console.log('he hung up on me');
 		});
+		// shoud i end or relase here?
+		// call.end();
 	};
 
 })();

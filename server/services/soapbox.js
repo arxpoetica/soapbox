@@ -4,6 +4,7 @@ var voteService = require(rootDir + '/server/services/vote');
 
 var self = module.exports = {
 	users: [],
+	speaker: null,
 	attachSocketLayer: function(socketLayer) {
 		// attach scope to this file
 		io = socketLayer;
@@ -34,12 +35,27 @@ var self = module.exports = {
 				//add to queue
 				self.users.push(data.id);
 
+				//if there is no current speaker && queue is long enough make speaker and start
+				if(!self.speaker && self.users.length > 1) {
+					self.speaker = {
+						id: self.users[0],
+						ready: false
+					};
+					socket.broadcast.emit('startSpeaker', self.speaker.id);
+				} else if(self.speaker && self.speaker.ready) {
+					socket.emit('getSpeakerStream', self.speaker.id);
+				}
+
 				// io.sockets.in(data.room).emit('newUser', {numUsers: numClients, id: data.id});
-				socket.broadcast.emit('newUser', data.id);
+				var data = {
+					queue: self.users,
+					id: data.id
+				};
+
 				//broadcast out new users to add to client queues
+				socket.broadcast.emit('newUser', data);
+				socket.emit('newUser', data);
 				
-				//respond to user with queue
-				socket.emit('join', self.users);
 
 				socket.on('disconnect', function () {
 					console.log('disconnected: ', data.id);
@@ -54,6 +70,14 @@ var self = module.exports = {
 					}
 					socket.broadcast.emit('userLeft', data.id);
 				});
+			});
+
+			socket.on('readyToSpeak', function(speaker) {
+				console.log('ready to speak');
+				if(self.speaker.id === speaker) {
+					self.speaker.ready = true;
+					socket.broadcast.emit('getSpeakerStream', self.speaker.id);
+				}
 			});
 
 			socket.on('broadcast', function (data) {
