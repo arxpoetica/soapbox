@@ -23,7 +23,6 @@ var self = module.exports = {
 					newUser.profileJSON = userGravatar.profileJSON;
 					newUser.avatarURL = userGravatar.avatarURL;
 					newUser.reputation = 100;
-					newUser.userId = Math.random().toString(36).slice(2); 
 					newUser.save(function(err) {
 						if (err) {
 							throw err;

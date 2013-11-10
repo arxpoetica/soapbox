@@ -18,7 +18,7 @@
 					var user = json.user;
 					// console.log(user);
 					// localStorage.setItem('user', JSON.stringify(json.user));
-					localStorage.setItem('userId', user.userId);
+					localStorage.setItem('userId', user._id);
 					localStorage.setItem('email', email);
 					localStorage.setItem('avatarURL', user.avatarURL);
 					localStorage.setItem('profileJSON', user.profileJSON);
