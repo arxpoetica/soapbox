@@ -109,7 +109,7 @@
 		$("#whoCall").show();
 		$("#hangup").show();
 
-		holla.createStream({ video: true, audio: false }, function(err, stream) {
+		holla.createStream({ video: true, audio: true }, function(err, stream) {
 			if (err) throw err;
 			holla.pipe(stream, $(".me"));
 
