@@ -86,11 +86,12 @@
 	};
 
 	SOAPBOX.initWebRTC = function() {
+
 		SOAPBOX.serverRTC = holla.createClient({
 			// video: true,
 			// audio: false,
-			debug: true,
-			presence: true
+			// debug: true,
+			// presence: true
 		});
 
 		SOAPBOX.serverRTC.on("presence", function(user) {
@@ -101,56 +102,53 @@
 			}
 		});
 
-		$("#whoAmI").change(function() {
-			var name = $("#whoAmI").val();
-			$(".me").show();
-			$(".them").show();
-			$("#whoAmI").remove();
-			$("#whoCall").show();
-			$("#hangup").show();
+		var name = localStorage.getItem('email');
+		$(".me").show();
+		$(".them").show();
+		$("#whoAmI").remove();
+		$("#whoCall").show();
+		$("#hangup").show();
 
-			holla.createStream({ video: true, audio: false }, function(err, stream) {
-				if (err) throw err;
-				holla.pipe(stream, $(".me"));
+		holla.createStream({ video: true, audio: false }, function(err, stream) {
+			if (err) throw err;
+			holla.pipe(stream, $(".me"));
 
-				// accept inbound
-				SOAPBOX.serverRTC.register(name, function(worked) {
-					SOAPBOX.serverRTC.on("call", function(call) {
-						console.log("Inbound call", call);
+			// accept inbound
+			SOAPBOX.serverRTC.register(name, function(worked) {
+				SOAPBOX.serverRTC.on("call", function(call) {
+					console.log("Inbound call", call);
 
-						call.addStream(stream);
-						call.answer();
+					call.addStream(stream);
+					call.answer();
 
-						call.ready(function(stream) {
-							holla.pipe(stream, $(".them"));
-						});
-						call.on("hangup", function() {
-							$(".them").attr('src', '');
-						});
-						$("#hangup").click(function() {
-							call.end();
-						});
+					call.ready(function(stream) {
+						holla.pipe(stream, $(".them"));
 					});
-
-					// place outbound
-					$("#whoCall").change(function() {
-						var toCall = $("#whoCall").val();
-						var call = SOAPBOX.serverRTC.call(toCall);
-						call.addStream(stream);
-						call.ready(function(stream) {
-							holla.pipe(stream, $(".them"));
-						});
-						call.on("hangup", function() {
-							$(".them").attr('src', '');
-						});
-						$("#hangup").click(function() {
-							call.end();
-						});
+					call.on("hangup", function() {
+						$(".them").attr('src', '');
 					});
-
+					$("#hangup").click(function() {
+						call.end();
+					});
 				});
-			});
 
+				// place outbound
+				$("#whoCall").change(function() {
+					var toCall = $("#whoCall").val();
+					var call = SOAPBOX.serverRTC.call(toCall);
+					call.addStream(stream);
+					call.ready(function(stream) {
+						holla.pipe(stream, $(".them"));
+					});
+					call.on("hangup", function() {
+						$(".them").attr('src', '');
+					});
+					$("#hangup").click(function() {
+						call.end();
+					});
+				});
+
+			});
 		});
 
 	};
