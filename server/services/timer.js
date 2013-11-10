@@ -1,5 +1,5 @@
 var microtime = require('microtime');
-var _defaultTime = 15;
+var _defaultTime = 15000;
 var _currentTime;
 var _timer;
 var _sessionTime = _defaultTime;
@@ -19,9 +19,9 @@ var self = module.exports = {
 
 	addTime: function(timeToAdd) {
 		// var timeDiff = microtime.nowDouble() - _currentTime;
-		_sessionTime = self.getTime() + timeToAdd;
+		_sessionTime = (_sessionTime - self.getTime()) + (timeToAdd * 1000);
 		clearTimeout(_timer);
-		_timer = setTimeout(self.endTimer(), _sessionTime, _callbackToCall);
+		_timer = setTimeout(self.endTimer, _sessionTime, _callbackToCall);
 	},
 
 	endTimer: function(callback) {

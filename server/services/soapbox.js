@@ -1,3 +1,6 @@
+var rootDir = process.env.NODE_ENV === 'production' ? '/home/deploy/current' : process.cwd();
+var timerService = require(rootDir + '/server/services/timer');
+
 var self = module.exports = {
 	users: [],
 	attachSocketLayer: function(socketLayer) {
@@ -68,3 +71,11 @@ var self = module.exports = {
 	}
 
 };
+
+// console.log(timerService, 'timerService');
+// timerService.startTimer(function() {
+
+// 	console.log('emit!');
+
+// });
+// setTimeout(function() { timerService.addTime(5); }, 1000);
