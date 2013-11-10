@@ -47,14 +47,14 @@ var self = module.exports = {
 				}
 
 				// io.sockets.in(data.room).emit('newUser', {numUsers: numClients, id: data.id});
-				var data = {
+				var newUser = {
 					queue: self.users,
 					id: data.id
 				};
 
 				//broadcast out new users to add to client queues
-				socket.broadcast.emit('newUser', data);
-				socket.emit('newUser', data);
+				socket.broadcast.emit('newUser', newUser);
+				socket.emit('newUser', newUser);
 				
 
 				socket.on('disconnect', function () {
@@ -73,10 +73,29 @@ var self = module.exports = {
 			});
 
 			socket.on('readyToSpeak', function(speaker) {
-				console.log('ready to speak');
+				timerService.startTimer(function() {
+					console.log('stop');
+					socket.emit('stopSpeaker', self.speaker.id);
+				});
 				if(self.speaker.id === speaker) {
 					self.speaker.ready = true;
 					socket.broadcast.emit('getSpeakerStream', self.speaker.id);
+				}
+			});
+
+			socket.on('doneSpeaking', function(speaker) {
+				console.log('done speaking');
+				if(self.speaker.id === speaker) {
+					//update queue and move current to end
+					self.users.shift();
+					self.users.push(speaker);
+					self.speaker.id = self.users[0];
+					self.speaker.ready = false;
+					//start new speaker
+					console.log('startNewSpeaker');
+					setTimeout(function() {
+						socket.broadcast.emit('startSpeaker', self.speaker.id);
+					}, 4000);
 				}
 			});
 
