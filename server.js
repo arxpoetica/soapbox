@@ -18,6 +18,7 @@ var port = nodeEnv === 'production' ? 80 : config.get('PORT');
 // console.log(port, nodeEnv);
 
 var socketLayer = require('socket.io');
+var holla = require('holla');
 
 var server;
 
@@ -104,5 +105,8 @@ server = app.listen(port, function(err) {
 
 	// when sockets are running, pass the variable along to controllers
 	require(rootDir + '/server/services/soapbox').attachSocketLayer(io);
+
+	var serverRTC = holla.createServer(server);
+	// console.log(serverRTC);
 
 });

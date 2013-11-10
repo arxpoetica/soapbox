@@ -2,29 +2,20 @@ extends components/layout
 
 block append content
 
-	.chatBox
-		input#chatInput(type='text', placeholder='Say something...')
-		#chatLog
+	//- .chatBox
+	//- 	input#chatInput(type='text', placeholder='Say something...')
+	//- 	#chatLog
 
-	//- section
-	//- 	h2 Setup a new meeting:
-	//- 	button#setup-new-meeting Setup New Meeting
-	//- table
-	//- 	tr
-	//- 		td
-	//- 			h2 Local Media Stream
-	//- 			section#local-media-stream
-	//- 	tr
-	//- 		td
-	//- 			h2 Remote Media Streams
-	//- 			section#remote-media-streams
-	audio#local-media-stream
-	audio#remote-media-stream	
+	input#whoAmI(type='text', placeholder='Who are you?')
+	input#whoCall(type='text', placeholder='Who do you want to call?')
+	button#hangup Hangup
+	.video-container
+		video.them(autoplay='true')
+		video.me.rtc-pip(autoplay='true', muted='true')
 
 block append scripts-plugins
 	script(src='#{cloudPath}socket.io/socket.io.js')
-	script(src='#{cloudPath}js/libs/adapter.js')
-	script(src='https://www.webrtc-experiment.com/RTCMultiConnection-v1.4.js')
+	script(src='#{cloudPath}js/libs/holla.js')
 
 block append scripts-views
 	script(src='#{cloudPath}js/views/box.js')
