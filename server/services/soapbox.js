@@ -1,5 +1,6 @@
 var rootDir = process.env.NODE_ENV === 'production' ? '/home/deploy/current' : process.cwd();
 var timerService = require(rootDir + '/server/services/timer');
+var voteService = require(rootDir + '/server/services/vote');
 
 var self = module.exports = {
 	users: [],
@@ -79,3 +80,6 @@ var self = module.exports = {
 
 // });
 // setTimeout(function() { timerService.addTime(5); }, 1000);
+
+
+console.log(voteService, 'voteService');
