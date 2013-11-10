@@ -279,7 +279,7 @@
 		});
 		$down.on('click', function(event) {
 			_socket.emit('downVoteUser', {
-				userID: _userId,
+				userId: _userId,
 			});
 		});
 
