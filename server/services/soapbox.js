@@ -32,19 +32,21 @@ var self = module.exports = {
 				// socket.join(data.room);
 				// var numClients = io.sockets.clients(data.room).length;
 
+				if(!self.speaker){
+					self.speaker = {
+						id: data.id,
+						ready: false
+					};
+				}
 				//add to queue
-				sessionService.pushUser(data.id, data.id, function(session){
+				sessionService.pushUser(self.speaker.id, data.id, function(session){
 					// update the vote count on the front-end
 					console.log(session.queue);
 					self.users = session.queue;
 				});
 
 				//if there is no current speaker && queue is long enough make speaker and start
-				if(!self.speaker && self.users.length > 1) {
-					self.speaker = {
-						id: self.users[0],
-						ready: false
-					};
+				if(self.users.length > 1) {
 					socket.broadcast.emit('startSpeaker', self.speaker.id);
 				} else if(self.speaker && self.speaker.ready) {
 					socket.emit('getSpeakerStream', self.speaker.id);
@@ -100,12 +102,12 @@ var self = module.exports = {
 				if(self.speaker.id === speaker) {
 					//update queue and move current to end
 					// self.users.shift();
-					sessionService.popUser(data.userid, self.users.shift(), function(session){
+					sessionService.popUser(speaker, self.users.shift(), function(session){
 						// update the queue on the front-end
 						console.log(session.queue);
 					});
 					// self.users.push(speaker);
-					sessionService.pushuser(data.userid, speaker, function(session){
+					sessionService.pushuser(speaker, speaker, function(session){
 						// update the queue on the front-end
 						console.log(session.queue);
 					});
