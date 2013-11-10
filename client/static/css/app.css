@@ -723,8 +723,14 @@ footer * {
   border-radius: 100%;
   background-clip: padding-box;
 }
-#me,
-#them,
+.me {
+  border: 4px solid #008000;
+  width: 100px;
+  height: auto;
+}
+.them {
+  border: 4px solid #f00;
+}
 #whoCall,
 #hangup {
   display: none;

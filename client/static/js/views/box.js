@@ -31,10 +31,8 @@
 			console.log('queue: ', queue);
 			_queue = queue;
 
-			//you are broadcaster
-			if(_queue[0] === _userId) {
-				SOAPBOX.startBroadcast();
-			} else {
+			//you are not broadcaster
+			if(_queue[0] !== _userId) {
 				SOAPBOX.getStreamFrom(_queue[0]);
 			}
 			// SOAPBOX.initStream();
@@ -107,18 +105,18 @@
 
 		SOAPBOX.serverRTC = holla.createClient({
 			// video: true,
-			// audio: false,
+			// audio: true,
 			// debug: true,
-			presence: true
+			presence: false
 		});
 
-		SOAPBOX.serverRTC.on("presence", function(user) {
-			if (user.online) {
-				console.log(user.name + " is online.");
-			} else {
-				console.log(user.name + " is offline.");
-			}
-		});
+		// SOAPBOX.serverRTC.on("presence", function(user) {
+		// 	if (user.online) {
+		// 		console.log(user.name + " is online.");
+		// 	} else {
+		// 		console.log(user.name + " is offline.");
+		// 	}
+		// });
 
 		$(".me").show();
 		$(".them").show();
@@ -126,13 +124,13 @@
 		$("#whoCall").show();
 		$("#hangup").show();
 
-		holla.createStream({ video: true, audio: true }, function(err, stream) {
+		holla.createStream({ video: true, audio: false }, function(err, stream) {
+			// console.log('create');
 			if (err) throw err;
+			
 			holla.pipe(stream, $(".me"));
 
-			// accept inbound
 			SOAPBOX.serverRTC.register(_userId, function(worked) {
-				
 				//dont join queue or receive events UNTIL they accept microphone
 				SOAPBOX.setupSocketListeners();
 				if (!_room) {
@@ -141,50 +139,70 @@
 					_socket.emit('join', {room: _room, id: _userId });
 				}
 
+				//receive calls ONLY if you are speaker
 				SOAPBOX.serverRTC.on("call", function(call) {
-					console.log("Inbound call", call);
-
-					call.addStream(stream);
-					call.answer();
-
-					call.ready(function(stream) {
-						holla.pipe(stream, $(".them"));
-					});
-					call.on("hangup", function() {
-						$(".them").attr('src', '');
-					});
-					$("#hangup").click(function() {
-						call.end();
-					});
+					console.log("Inbound call -------");
+					if(_queue[0] === _userId) {
+						console.log("accept");
+						call.addStream(stream);
+						call.answer();
+						call.ready(function(stream) {
+							//dont show them, one way baby
+							// holla.pipe(stream, $(".them"));
+						});
+						//TODO at some point call.end()
+					} else {
+						console.log("decline");
+					}
 				});
+				// SOAPBOX.serverRTC.on("call", function(call) {
+				// 	console.log("Inbound call", call);
 
-				// place outbound
-				$("#whoCall").change(function() {
-					var toCall = $("#whoCall").val();
-					var call = SOAPBOX.serverRTC.call(toCall);
-					call.addStream(stream);
-					call.ready(function(stream) {
-						holla.pipe(stream, $(".them"));
-					});
-					call.on("hangup", function() {
-						$(".them").attr('src', '');
-					});
-					$("#hangup").click(function() {
-						call.end();
-					});
-				});
+				// 	call.addStream(stream);
+				// 	call.answer();
+
+				// 	call.ready(function(stream) {
+				// 		holla.pipe(stream, $(".them"));
+				// 	});
+				// 	call.on("hangup", function() {
+				// 		$(".them").attr('src', '');
+				// 	});
+				// 	$("#hangup").click(function() {
+				// 		call.end();
+				// 	});
+				// });
+
+				// // place outbound
+				// $("#whoCall").change(function() {
+				// 	var toCall = $("#whoCall").val();
+				// 	var call = SOAPBOX.serverRTC.call(toCall);
+				// 	call.addStream(stream);
+				// 	call.ready(function(stream) {
+				// 		holla.pipe(stream, $(".them"));
+				// 	});
+				// 	call.on("hangup", function() {
+				// 		$(".them").attr('src', '');
+				// 	});
+				// 	$("#hangup").click(function() {
+				// 		call.end();
+				// 	});
+				// });
 
 			});
 		});
 
 	};
 
-	SOAPBOX.startBroadcast = function() {
-		console.log('broadcast my stream');
-	};
-
-	SOAPBOX.getStreamFrom = function(user) {
+	SOAPBOX.getStreamFrom = function(currentSpeaker) {
 		console.log('get stream from current speaker');
+		var call = SOAPBOX.serverRTC.call(currentSpeaker);
+		// call.addStream(stream);
+		call.ready(function(stream) {
+			holla.pipe(stream, $(".them"));
+		});
+		call.on("hangup", function() {
+			$(".them").attr('src', '');
+		});
 	};
 
 })();
