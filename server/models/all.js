@@ -21,8 +21,17 @@ var self = module.exports = {
 			message: String
 		});
 
+		var SessionSchema = new mongoose.Schema({
+			userId: String,
+			votes: {
+				type: Number,
+				default: 0
+			}
+		});
+
 		var User = mongoose.model('User', UserSchema);
 		var Chat = mongoose.model('Chat', ChatSchema);
+		var Session = mongoose.model('Session', SessionSchema);
 
 	}
 
