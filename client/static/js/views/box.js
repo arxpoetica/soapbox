@@ -63,7 +63,7 @@
 			}
 		});
 
-		_socket.on('startSpeaker', function(speaker) {
+		_socket.on('startSpeaker', function(speaker, name) {
 			_speaker = speaker;
 			if(_speaker === _userId) {
 				_socket.emit('readyToSpeak', _userId);
@@ -73,13 +73,15 @@
 				$('.speaker').hide();
 			} else {
 				$('.speaker').show();
+				// $('.speakerName').text(name);
 			}
 		});
 
 		_socket.on('getSpeakerStream', function(speaker) {
-			if(!conns[speaker]) {
-				SOAPBOX.getStreamFrom(speaker);	
+			if(!conns[speaker] && speaker !== _userId) {
+				SOAPBOX.getStreamFrom(speaker);
 			}
+			$('.timer').text(15);
 		});
 
 		_socket.emit('join', {room: 'nko', id: _userId });

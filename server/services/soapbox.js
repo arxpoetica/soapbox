@@ -73,6 +73,8 @@ var self = module.exports = {
 						self.speaker.id = self.users[0];
 						self.speaker.ready = false;
 						socket.broadcast.emit('startSpeaker', self.speaker.id);
+					} else if(self.users.length < 1) {
+						self.speaker = null;
 					}
 					socket.broadcast.emit('userLeft', data.id);
 				});
