@@ -49,10 +49,10 @@ var self = module.exports = {
 	},
 
 	updateUserRep: function(email, reputation, time, callback) {
-		if ( time < 15 ) {
+		if (time < 15) {
 			// User was yanked.  Decrease by 5%
 			reputation = (reputation * .95);
-		} else if ( time == 15) {
+		} else if (time == 15) {
 			// User only spoke for 15 seconds.
 			// No change to reputation necessary.
 			reputation = reputation;
@@ -63,7 +63,7 @@ var self = module.exports = {
 			// Add a percentage of current reputation based on
 			// the number of 5 second intervals the speaker
 			// was given by their peers
-			reputation = ((topReputation / ( reputation * 4 )) * addedTime);
+			reputation = ((topReputation / (reputation * 4)) * addedTime);
 		}
 		User.update({ email: email }, {reputation: reputation}, {multi: true}, function(err, users){
 			callback(user);
