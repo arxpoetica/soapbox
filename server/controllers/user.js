@@ -40,7 +40,7 @@ var self = module.exports = {
 		User.find({ _id: userId }, function(err, user){
 			callback(user);
 		});
-	}
+	},
 
 	list: function(callback) {
 		User.find({}, function(err, users) {
