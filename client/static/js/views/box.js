@@ -1,15 +1,23 @@
 (function() {
 
 	// private variables
-	var _socket, $chatInput, $chatLog, _room, _id, _meeting;
+	var _socket, $chatInput, $chatLog, _room, _userId, _queue;
 
 	SOAPBOX.initBox = function(options) {
 
 		// initialize the box here...
 		console.log('box', options);
-		SOAPBOX.initSocket();
-		SOAPBOX.initChat();
-		SOAPBOX.initWebRTC();
+		//TODO do some check if here if they go straight here without logging in?
+
+		_userId = localStorage.getItem('userId');
+		if(_userId) {
+			SOAPBOX.initSocket();
+			SOAPBOX.initChat();
+			SOAPBOX.initWebRTC();
+		} else {
+			//TODO
+			alert('must sign in on homepage');
+		}
 	};
 
 	SOAPBOX.initSocket = function() {
@@ -17,15 +25,12 @@
 		$chatInput = $('#chatInput');
 		$chatLog = $('#chatLog');
 
+		SOAPBOX.setupSocketListeners();
 		if (!_room) {
 			//hard code 1 room for now
 			_room = 'nko';
-			//random id
-			_id = Math.random().toString(36).slice(2);
-			_socket.emit('join', {room: _room, id: _id});
+			_socket.emit('join', {room: _room, id: _userId });
 		}
-
-		SOAPBOX.setupSocketListeners();
 		// window._socket = _socket;
 	};
 
@@ -34,15 +39,26 @@
 			console.log('new soapboxer: ' + data.id);
 		});
 
-		_socket.on('join', function (users) {
-			console.log('users: ', users);
-			SOAPBOX.initStream();
+		_socket.on('join', function (queue) {
+			console.log('queue: ', queue);
+			_queue = queue;
+
+			//you are broadcaster
+			if(_queue[0] === _userId) {
+				SOAPBOX.startBroadcast();
+			} else {
+				SOAPBOX.getStreamFrom(_queue[0]);
+			}
+			// SOAPBOX.initStream();
 			//SOAPBOX.initStream(users[0]);
 		});
 
-		// _socket.on('message', function (message) {
-		// 	_meeting.newMessage(message);
-		// });
+		_socket.on('newUser', function (id) {
+			//add the new user if it is not you to the local queue
+			if(id !== _userId) {
+				_queue.push(_userId);
+			}
+		});
 	};
 
 	SOAPBOX.initChat = function() {
@@ -91,7 +107,7 @@
 			// video: true,
 			// audio: false,
 			// debug: true,
-			// presence: true
+			presence: true
 		});
 
 		SOAPBOX.serverRTC.on("presence", function(user) {
@@ -151,6 +167,14 @@
 			});
 		});
 
+	};
+
+	SOAPBOX.startBroadcast = function() {
+		console.log('broadcast my stream');
+	};
+
+	SOAPBOX.getStreamFrom = function(user) {
+		console.log('get stream from current speaker');
 	};
 
 })();

@@ -23,12 +23,18 @@ var self = module.exports = {
 			});
 
 			socket.on('join', function (data) {
-				socket.join(data.room);
-				var numClients = io.sockets.clients(data.room).length;
+				// //join specific room (channel)
+				// socket.join(data.room);
+				// var numClients = io.sockets.clients(data.room).length;
+
+				//add to queue
 				self.users.push(data.id);
-				console.log('Room ' + data.room + ' has ' + numClients + ' clients');
-				io.sockets.in(data.room).emit('newUser', {numUsers: numClients, id: data.id});
-				//TODO get queue of ids and pass it back
+
+				// io.sockets.in(data.room).emit('newUser', {numUsers: numClients, id: data.id});
+				socket.broadcast.emit('newUser', data.id);
+				//broadcast out new users to add to client queues
+				
+				//respond to user with queue
 				socket.emit('join', self.users);
 			});
 
