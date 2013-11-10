@@ -4,6 +4,7 @@ var gravatar = require(rootDir + '/server/services/gravatar');
 
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var topReputation = 1000;
 
 var self = module.exports = {
 
@@ -44,6 +45,28 @@ var self = module.exports = {
 	getRankedUsers: function(callback) {
 		User.find({}, function(err, users) {
 			callback(users.sort('field -reputation'));
+		});
+	}
+
+	updateUserRep: function(email, reputation, time, callback) {
+		if ( time < 15 ) {
+			// User was yanked.  Decrease by 5%
+			reputation = (reputation * .95);
+		} else if ( time == 15) {
+			// User only spoke for 15 seconds.
+			// No change to reputation necessary.
+			reputation = reputation;
+		} else {
+			// User was given additional time.
+			// First, get the number of 5 second increments
+			addedTime = floor((time - 15) / 5);
+			// Add a percentage of current reputation based on
+			// the number of 5 second intervals the speaker
+			// was given by their peers
+			reputation = ((topReputation / ( reputation * 4 )) * addedTime);
+		}
+		User.update({ email: email }, {reputation: reputation}, {multi: true}, function(err, users){
+			callback(user);
 		});
 	}
 
