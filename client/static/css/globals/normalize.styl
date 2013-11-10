@@ -66,32 +66,28 @@ p
 	font-size 0.8em
 	line-height: 1.2
 h1
-	margin 0 0 0.2em
-	font 700 4.8rem/1.2 $headerFontFamily
+	margin 0 0 0.5em
+	font 700 4rem/1.2 $baseFontFamily
 	text-transform uppercase
-	// $textShadow(2px 2px 4px black)
-	small
-		font-size 2.4rem
-		text-transform none
 h2
 	margin 0
-	font 700 2.4rem/1.2 $headerFontFamily
+	font 700 2.4rem/1.2 $baseFontFamily
 	// $textShadow(2px 2px 4px black)
 h3
 	margin 2em 0 1em
-	font 700 1.3em/1.2 $headerFontFamily
+	font 700 1.3em/1.2 $baseFontFamily
 	text-transform uppercase
 	letter-spacing 1.5px
 h4
 	margin 0
-	font 700 3rem/1.2 $headerFontFamily
+	font 700 3rem/1.2 $baseFontFamily
 	text-transform uppercase
 h5
 	margin 1em 0 0.5em
-	font 700 2.5em/1.2 $headerFontFamily
+	font 700 2.5em/1.2 $baseFontFamily
 h6
 	margin 1em 0 0.5em
-	font 700 italic 2em/1.2 $headerFontFamily
+	font 700 italic 2em/1.2 $baseFontFamily
 
 .image.left{margin:5px 24px 22px -170px;}
 .image.right{margin:5px -170px 22px 24px;}
@@ -140,40 +136,38 @@ blockquote figcaption
 		right 1em
 		text-align right	
 		width 3000px
-
-table{
+table
 	margin 0 0 18px
-	width 100%
+	width 25%
 	border-collapse collapse
 	border-spacing 0
 	border 0 none
 	cursor default
-}
-caption{
+	font-size 8rem
+	font-weight 700
+	.center
+		text-align center
+caption
 	margin 0 0 8px
 	padding 0
 	letter-spacing 1.5px
 	text-transform uppercase
-	text-align:left;
-	color #67a4d8
-}
-th{
+	text-align left
+th
 	padding 8px 12px
-	vertical-align:bottom;
-	background-color #f9d573
+	vertical-align bottom
+	background-color $linkColor
 	color white
+	font-size 2rem
 	letter-spacing 1.5px
-	text-shadow 0 -1px 3px #ccc
 	text-transform uppercase
 	text-align left
 	$transition(background-color ease .5s)
-}
-td{
-	padding 6px 12px
-	vertical-align top
-	border-bottom 1px solid #929efa
+td
+	padding 8px 12px
+	vertical-align middle
+	border-bottom 1px solid #444
 	$transition(background-color ease .5s)
-}
 
 
 /* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: >>>>> FORMS/FORM ELEMENTS */
