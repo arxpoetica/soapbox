@@ -41,6 +41,13 @@ var self = module.exports = {
 			})
 		})
 
+		app.get('/wetried', function(req, res) {
+			res.render('wetried', {
+				title: 'Soapbox',
+				globals: globals
+			});
+		})
+
 		// 404'd
 		app.use(function(req, res, next) {
 			// res.send(404, 'Sorry cant find that!');

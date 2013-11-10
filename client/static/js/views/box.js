@@ -35,6 +35,7 @@
 
 		//add user to queue
 		_socket.on('newUser', function (data) {
+			console.log(data);
 			//check capacity for new user
 			if(data.queue.length > 42 && _userId === data.id) {
 				alert('sorry dude at capacity');
@@ -53,6 +54,7 @@
 					break;
 				}
 			}
+			SOAPBOX.updateStatus();
 			delete conns[id];
 		});
 
@@ -80,6 +82,7 @@
 		});
 
 		_socket.on('getSpeakerStream', function(speaker, avatar) {
+			console.log('getSpeaker');
 			if(!conns[speaker] && speaker !== _userId) {
 				SOAPBOX.getStreamFrom(speaker);
 			}
@@ -100,6 +103,8 @@
 			setTimeout(function() {
 				SOAPBOX.updateTimer();
 			},1000);
+		} else {
+			$('.timer').text('---');
 		}
 	};
 

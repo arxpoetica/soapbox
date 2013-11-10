@@ -771,6 +771,14 @@ video {
   width: 200px;
   height: 200px;
 }
+.wetried {
+  width: 640px;
+  height: 480px;
+  background: url("http://24.media.tumblr.com/tumblr_lm2mwaY0R91qii6tmo1_250.gif") no-repeat center center;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
 .nocallout {
   -webkit-touch-callout: none;
 }

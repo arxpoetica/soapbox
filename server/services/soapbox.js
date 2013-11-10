@@ -38,29 +38,34 @@ var self = module.exports = {
 						ready: false
 					};
 				}
-				console.log(self.speaker);
 				//add to queue
+
 				sessionService.pushUser(self.speaker.id, data.id, function(session){
 					// update the vote count on the front-end
 					self.users = session.queue;
+
+
+					//if there is no current speaker && queue is long enough make speaker and start
+					if(self.users.length > 1) {
+						socket.broadcast.emit('startSpeaker', self.speaker.id);
+					} else if(self.speaker && self.speaker.ready && self.users.length > 1) {
+						socket.emit('getSpeakerStream', self.speaker.id);
+					}
+
+					// io.sockets.in(data.room).emit('newUser', {numUsers: numClients, id: data.id});
+					// var newUser = {
+					// 	queue: self.users,
+					// 	id: data.id
+					// };
+					var newUser = {
+						queue: self.users,
+						id: data.id
+					};
+
+					//broadcast out new users to add to client queues
+					socket.broadcast.emit('newUser', newUser);
+					socket.emit('newUser', newUser);
 				});
-
-				//if there is no current speaker && queue is long enough make speaker and start
-				if(self.users.length > 1) {
-					socket.broadcast.emit('startSpeaker', self.speaker.id);
-				} else if(self.speaker && self.speaker.ready) {
-					socket.emit('getSpeakerStream', self.speaker.id);
-				}
-
-				// io.sockets.in(data.room).emit('newUser', {numUsers: numClients, id: data.id});
-				var newUser = {
-					queue: self.users,
-					id: data.id
-				};
-
-				//broadcast out new users to add to client queues
-				socket.broadcast.emit('newUser', newUser);
-				socket.emit('newUser', newUser);
 				
 
 				socket.on('disconnect', function () {
@@ -75,7 +80,7 @@ var self = module.exports = {
 						}
 					}
 					//if someone leaves while its their turn
-					if(self.speaker.id === data.id) {
+					if(self.speaker.id === data.id && self.users.length > 1) {
 						self.speaker.id = self.users[0];
 						self.speaker.ready = false;
 						socket.broadcast.emit('startSpeaker', self.speaker.id);
@@ -94,6 +99,7 @@ var self = module.exports = {
 				if(self.speaker.id === speaker) {
 					self.speaker.ready = true;
 					socket.broadcast.emit('getSpeakerStream', self.speaker.id, avatar);
+					socket.emit('getSpeakerStream', self.speaker.id, avatar);
 				}
 			});
 
@@ -107,17 +113,18 @@ var self = module.exports = {
 						console.log(session.queue);
 					});
 					// self.users.push(speaker);
-					sessionService.pushuser(speaker, speaker, function(session){
+					sessionService.pushUser(speaker, speaker, function(session){
 						// update the queue on the front-end
 						console.log(session.queue);
+						self.speaker.id = self.users[0];
+						self.speaker.ready = false;
+						//start new speaker
+						console.log('startNewSpeaker');
+						setTimeout(function() {
+							socket.broadcast.emit('startSpeaker', self.speaker.id);
+							socket.emit('startSpeaker', self.speaker.id);
+						}, 2000);
 					});
-					self.speaker.id = self.users[0];
-					self.speaker.ready = false;
-					//start new speaker
-					console.log('startNewSpeaker');
-					setTimeout(function() {
-						socket.broadcast.emit('startSpeaker', self.speaker.id);
-					}, 4000);
 				}
 			});
 
