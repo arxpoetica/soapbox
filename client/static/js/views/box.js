@@ -244,19 +244,21 @@
 
 	SOAPBOX.initVoting = function() {
 
+		_socket.emit('initSession', {
+			user: _userId,
+		});
+		
 		$up = $('.speaker .up');
 		$down = $('.speaker .down');
 
 		$up.on('click', function(event) {
 			_socket.emit('upVoteUser', {
-				user: 'user',
-				gameId: 'gameId',
+				user: _userId,
 			});
 		});
 		$down.on('click', function(event) {
 			_socket.emit('downVoteUser', {
-				user: 'user',
-				gameId: 'gameId',
+				user: _userId,
 			});
 		});
 

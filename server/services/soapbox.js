@@ -92,11 +92,27 @@ var self = module.exports = {
 				io.sockets.in(data.room).emit('shareStream', data);
 			});
 
-			socket.on('upVoteUser', function(data) {
-				console.log(data);
+			socket.on('initSession', function(data) {
+				//console.log(data)
+				voteService.createSession(data.user, function(session){
+					// console.log(session.votes);
+				});
 			});
+
+			socket.on('upVoteUser', function(data) {
+				// console.log(data);
+				voteService.upvote(data.user, function(session){
+					// update the vote count on the front-end
+					// console.log(session.votes);
+				});
+			});
+
 			socket.on('downVoteUser', function(data) {
 				console.log(data);
+				voteService.downvote(data.user, function(session){
+					// update the vote count on the front-end
+					console.log(session.votes);
+				});
 			});
 
 		});
@@ -112,5 +128,4 @@ var self = module.exports = {
 // });
 // setTimeout(function() { timerService.addTime(5); }, 1000);
 
-
-console.log(voteService, 'voteService');
+//console.log(voteService, 'voteService');

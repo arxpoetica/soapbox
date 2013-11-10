@@ -6,7 +6,7 @@ var Session = mongoose.model('Session');
 var self = module.exports = {
 
 	createSession: function(userId, callback) {
-		var query = Session.findOne({ '_id': userId });
+		var query = Session.findOne({ 'userId': userId });
 
 		query.exec(function(err, oldId) {
 			if (oldId) {
@@ -27,8 +27,22 @@ var self = module.exports = {
 		});
 	},
 
+	deleteSession: function(userId, callback) {
+		var query = Session.remove({ 'userId': userId });
+
+		query.exec(function(err, oldId) {
+			if (oldId) {
+				console.log('Deleting session.'.yellow);
+				if (typeof callback == 'function') { callback(newSession); }
+			} else {
+				console.log('No session.'.yellow);
+				if (typeof callback == 'function') { callback(oldId); }
+			}
+		});
+	},
+
 	getSession: function(userId, callback) {
-		var query = Session.findOne({ '_id': userId});
+		var query = Session.findOne({ 'userId': userId});
 
 		query.exec(function(err, session) {
 			if (session) {
@@ -45,7 +59,7 @@ var self = module.exports = {
 	},
 
 	updateSession: function(userId, votes, callback) {
-		Session.update({ '_id': userId }, { 'votes': votes }, { multi: true }, function(err, session){
+		Session.update({ 'userId': userId }, { 'votes': votes }, { multi: true }, function(err, session){
 			if (err) {
 				throw err;
 			} else {
