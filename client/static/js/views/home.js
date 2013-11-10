@@ -31,6 +31,12 @@
 		// initialize home here...
 		console.log('home', options);
 
+		//check for RTC support
+		if(!window.webkitRTCPeerConnection && !window.mozRTCPeerConnection) {
+			$('.signup').hide();
+			$('.nosupport').show();
+		}
+
 	};
 
 })();

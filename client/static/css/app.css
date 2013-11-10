@@ -713,6 +713,9 @@ footer * {
   text-transform: uppercase;
   white-space: nowrap;
 }
+.nosupport {
+  display: none;
+}
 .leaderBoard .gravatar {
   width: 100px;
   height: 100px;
