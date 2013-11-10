@@ -33,7 +33,7 @@ var self = module.exports = {
 				// var numClients = io.sockets.clients(data.room).length;
 
 				//add to queue
-				sessionService.pushUser(_userid, data.id, function(session){
+				sessionService.pushUser(data.id, data.id, function(session){
 					// update the vote count on the front-end
 					console.log(session.queue);
 					self.users = session.queue;
