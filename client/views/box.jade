@@ -9,11 +9,44 @@ block append content
 	//- input#whoAmI(type='text', placeholder='Who are you?')
 	//- input#whoCall(type='text', placeholder='Who do you want to call?')
 	//- button#hangup Hangup
+
 	.lonely
 		p Hey fella, it appears you are by yourself. Share this link - http://xyzzy.2013.nodeknockout.com/ - to start having fun.
 	.video-container
 		video.them(autoplay='true')
 		video.me.rtc-pip(autoplay='true', muted='true')
+
+	.speaker
+		.votingBooth
+			h4 How's my soapbox speech?
+			h5 Vote to add time, or lower my status (booted if hated!).
+			.up
+			.down
+
+	table.queue
+		tr
+			th
+			th.center User
+			th.center On Deck
+		each user, i in users
+			//- - if(user) local
+			tr
+				- if(i < 5) {
+					td.center
+						img.gravatar(src=user.avatarURL)
+					td.center= user.email.split('@')[0].substring(0, 3) + '...'
+					td.center= i + 1
+				- }
+		- if(users.length > 5) {
+			tr
+				td
+				td.center ...
+				td
+		- }
+		//- tr
+		//- 	td
+		//- 	td.center ME
+		//- 	td
 
 block append scripts-plugins
 	script(src='#{cloudPath}socket.io/socket.io.js')

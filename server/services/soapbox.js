@@ -92,6 +92,13 @@ var self = module.exports = {
 				io.sockets.in(data.room).emit('shareStream', data);
 			});
 
+			socket.on('upVoteUser', function(data) {
+				console.log(data);
+			});
+			socket.on('downVoteUser', function(data) {
+				console.log(data);
+			});
+
 		});
 	}
 

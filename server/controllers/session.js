@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var Session = mongoose.model('Session');
 
 var self = module.exports = {
+
 	createSession: function(userId, callback) {
 		var query = Session.findOne({ '_id': userId });
 
@@ -52,4 +53,5 @@ var self = module.exports = {
 			}
 		});
 	}
+
 }

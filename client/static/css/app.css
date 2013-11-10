@@ -139,12 +139,11 @@ h3 {
 }
 h4 {
   margin: 0;
-  font: 700 3rem/1.2 'Lato', Arial, sans-serif;
-  text-transform: uppercase;
+  font: 700 1.8rem/1.2 'Lato', Arial, sans-serif;
 }
 h5 {
-  margin: 1em 0 0.5em;
-  font: 700 2.5em/1.2 'Lato', Arial, sans-serif;
+  margin: 0;
+  font: 700 1.4rem/1.2 'Lato', Arial, sans-serif;
 }
 h6 {
   margin: 1em 0 0.5em;
@@ -250,7 +249,7 @@ table {
   border-spacing: 0;
   border: 0 none;
   cursor: default;
-  font-size: 8rem;
+  font-size: 6rem;
   font-weight: 700;
 }
 table .center {
@@ -722,6 +721,36 @@ footer * {
   -webkit-border-radius: 100%;
   border-radius: 100%;
   background-clip: padding-box;
+}
+table.queue {
+  width: auto;
+  font-size: 1.8rem;
+}
+table.queue th {
+  text-transform: none;
+}
+table.queue .gravatar {
+  width: 25px;
+  height: 25px;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  background-clip: padding-box;
+}
+.speaker .votingBooth .up,
+.speaker .votingBooth .down {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url("../img/thumbs-up.png") no-repeat 0 0 transparent;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.speaker .votingBooth .up {
+  margin: 0 8px 0 0;
+  background: url("../img/thumbs-up.png") no-repeat 0 0 transparent;
+}
+.speaker .votingBooth .down {
+  background: url("../img/thumbs-down.png") no-repeat 0 0 transparent;
 }
 .me {
   border: 4px solid #008000;

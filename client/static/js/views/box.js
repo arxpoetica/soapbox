@@ -1,7 +1,7 @@
 (function() {
 
 	// private variables
-	var _socket, $chatInput, $chatLog, _room, _userId, _queue, _calls, _speaker;
+	var _socket, $chatInput, $chatLog, _room, _userId, _queue, _calls, _speaker, $up, $down;
 
 	SOAPBOX.initBox = function(options) {
 
@@ -14,10 +14,12 @@
 			SOAPBOX.initSocket();
 			SOAPBOX.initChat();
 			SOAPBOX.initWebRTC();
+			SOAPBOX.initVoting();
 		} else {
 			//TODO
 			alert('must sign in on homepage');
 		}
+
 	};
 
 	SOAPBOX.initSocket = function() {
@@ -238,6 +240,26 @@
 		});
 		// shoud i end or relase here?
 		// call.end();
+	};
+
+	SOAPBOX.initVoting = function() {
+
+		$up = $('.speaker .up');
+		$down = $('.speaker .down');
+
+		$up.on('click', function(event) {
+			_socket.emit('upVoteUser', {
+				user: 'user',
+				gameId: 'gameId',
+			});
+		});
+		$down.on('click', function(event) {
+			_socket.emit('downVoteUser', {
+				user: 'user',
+				gameId: 'gameId',
+			});
+		});
+
 	};
 
 })();

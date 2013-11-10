@@ -15,10 +15,12 @@ var self = module.exports = {
 		});
 
 		app.get('/box/:roomId', function(req, res) {
-			console.log(req.params);
-			res.render('box', {
-				title: 'Box ' + req.params.roomId + ' | Soapbox',
-				globals: globals
+			UserController.getRankedUsers(function(users) {
+				res.render('box', {
+					title: 'Box ' + req.params.roomId + ' | Soapbox',
+					globals: globals,
+					users: users
+				});	
 			});
 		});
 
