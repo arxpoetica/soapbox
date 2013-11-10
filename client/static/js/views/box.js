@@ -183,7 +183,6 @@
 						call.answer();
 						call.ready(function(stream) {
 						});
-						_calls.push(call);
 						//TODO at some point call.end()
 					} else {
 						console.log("decline");
