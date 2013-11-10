@@ -56,7 +56,7 @@ var self = module.exports = {
 			console.log(session.queue);
 			callback(session.queue);
 		});
-	}
+	},
 
 	pushUser: function(userId, pushUser, callback){
 		self.getQueue(userId, function(queue){
