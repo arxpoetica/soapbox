@@ -38,10 +38,10 @@ var self = module.exports = {
 						ready: false
 					};
 				}
+				console.log(self.speaker);
 				//add to queue
 				sessionService.pushUser(self.speaker.id, data.id, function(session){
 					// update the vote count on the front-end
-					console.log(session.queue);
 					self.users = session.queue;
 				});
 
@@ -135,14 +135,14 @@ var self = module.exports = {
 
 			socket.on('initSession', function(data) {
 				//console.log(data)
-				sessionService.createSession(data.userid, function(session){
+				sessionService.createSession(data.userId, function(session){
 					// console.log(session.votes);
 				});
 			});
 
 			socket.on('upVoteUser', function(data) {
 				// console.log(data);
-				sessionService.upvote(data.userid, function(session){
+				sessionService.upvote(data.userId, function(session){
 					// update the vote count on the front-end
 					// console.log(session.votes);
 				});
@@ -150,7 +150,7 @@ var self = module.exports = {
 
 			socket.on('downVoteUser', function(data) {
 				console.log(data);
-				sessionService.downvote(data.userid, function(session){
+				sessionService.downvote(data.userId, function(session){
 					// update the vote count on the front-end
 					console.log(session.votes);
 				});
@@ -158,7 +158,7 @@ var self = module.exports = {
 
 			socket.on('pushUser', function(data) {
 				console.log(data);
-				sessionService.pushuser(data.userid, data.pushed, function(session){
+				sessionService.pushuser(data.userId, data.pushed, function(session){
 					// update the vote count on the front-end
 					console.log(session.queue);
 				});
@@ -166,7 +166,7 @@ var self = module.exports = {
 
 			socket.on('popUser', function(data) {
 				console.log(data);
-				sessionService.popUser(data.userid, data.popped, function(session){
+				sessionService.popUser(data.userId, data.popped, function(session){
 					// update the vote count on the front-end
 					console.log(session.queue);
 				});

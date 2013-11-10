@@ -21,7 +21,7 @@ var self = module.exports = {
 					if (err) {
 						throw err;
 					}
-					console.log('New session.'.yellow);
+					console.log('New session for user: ' + userId);
 					if (typeof callback == 'function') { callback(newSession); }
 				});
 			}
@@ -51,7 +51,7 @@ var self = module.exports = {
 				if (typeof callback == 'function') { callback(session); }
 
 			} else {
-				console.log('No session found.'.yellow);
+				console.log('No session found for user: ' + userId);
 				if (err) {
 					throw err;
 				}
@@ -64,7 +64,7 @@ var self = module.exports = {
 			if (err) {
 				throw err;
 			} else {
-				if (typeof callback == 'function') { callback(session); }
+				if (typeof callback == 'function') { self.getSession(userId, callback); }
 			}
 		});
 	},
@@ -74,7 +74,7 @@ var self = module.exports = {
 			if (err) {
 				throw err;
 			} else {
-				if (typeof callback == 'function') { callback(session); }
+				if (typeof callback == 'function') { self.getSession(userId, callback); }
 			}
 		});
 	}

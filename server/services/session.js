@@ -53,14 +53,14 @@ var self = module.exports = {
 
 	getQueue: function(userId, callback){
 		SessionController.getSession(userId, function(session){
-			console.log(session.queue);
 			callback(session.queue);
 		});
 	},
 
 	pushUser: function(userId, pushUser, callback){
 		self.getQueue(userId, function(queue){
-			SessionController.updateSessionQueue(userId, queue.push(pushUser), function(session){
+			queue.push(pushUser);
+			SessionController.updateSessionQueue(userId, queue, function(session){
 				if (typeof callback === 'function') {
 					callback(session);
 				}
