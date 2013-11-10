@@ -22,7 +22,7 @@ var self = module.exports = {
 			});
 		});
 
-		app.get('/leaders/', function(req, res) {
+		app.get('/leaders', function(req, res) {
 			UserController.getRankedUsers(function(users) {
 				res.render('leaders', {
 					title: 'Leaders | Soapbox',
@@ -32,7 +32,7 @@ var self = module.exports = {
 			});
 		});
 
-		app.get('/contact/', function(req, res) {
+		app.get('/contact', function(req, res) {
 			res.render('contact', {
 				title: 'About The Team',
 				globals: globals

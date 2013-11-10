@@ -1,17 +1,17 @@
 extends components/layout
 
 block append content
-	section
+	section.leaderBoard
 		h1 Who's on first?
-		table(border='1')
+		table
 			tr
-				th User
-				th Reputation
+				th.center User
+				th.center Reputation
 			each user in users
 				tr
-					td
-						img(src=user.avatarURL)
-					td= user.reputation
+					td.center
+						img.gravatar(src=user.avatarURL)
+					td.center= user.reputation
 
 block append scripts-views
 	script(src='#{cloudPath}js/views/leaders.js')
