@@ -6,14 +6,13 @@ block append content
 		table
 			tr
 				th
-				//- th.center User <-- uncomment
+				th.center User 
 				th.center Reputation
 			each user in users
-				//- - var email = user.email.split('') <------ do some JS work here, champ...
 				tr
 					td.center
 						img.gravatar(src=user.avatarURL)
-					//- td.center= email <-- uncomment
+					td.center= user.email.split('@')[0].substring(0, 3) + '...@' + user.email.split('@')[1]
 					td.center= user.reputation
 
 block append scripts-views
