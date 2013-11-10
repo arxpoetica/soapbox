@@ -731,6 +731,9 @@ footer * {
 .them {
   border: 4px solid #f00;
 }
+.lonely {
+  display: none;
+}
 #whoCall,
 #hangup {
   display: none;
