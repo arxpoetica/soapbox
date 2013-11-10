@@ -36,6 +36,12 @@ var self = module.exports = {
 
 	},
 
+	getUserById: function(userId, callback) {
+		User.find({ _id: userId }, function(err, user){
+			callback(user);
+		});
+	}
+
 	list: function(callback) {
 		User.find({}, function(err, users) {
 			callback(users);
