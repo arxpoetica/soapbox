@@ -9,7 +9,6 @@
 		console.log('box', options);
 		SOAPBOX.initSocket();
 		SOAPBOX.initChat();
-		//SOAPBOX.webrtc();
 		SOAPBOX.initWebRTC();
 	};
 
@@ -27,7 +26,7 @@
 		}
 
 		SOAPBOX.setupSocketListeners();
-			// window._socket = _socket;
+		// window._socket = _socket;
 	};
 
 	SOAPBOX.setupSocketListeners = function() {
@@ -37,6 +36,7 @@
 
 		_socket.on('join', function (users) {
 			console.log('users: ', users);
+			SOAPBOX.initStream();
 			//SOAPBOX.initStream(users[0]);
 		});
 
@@ -153,15 +153,6 @@
 
 		});
 
-
 	};
 
-
-
 })();
-
-
-
-
-
-

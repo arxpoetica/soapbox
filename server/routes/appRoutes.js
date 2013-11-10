@@ -32,6 +32,13 @@ var self = module.exports = {
 			});
 		});
 
+		app.get('/contact/', function(req, res) {
+			res.render('contact', {
+				title: 'About The Team',
+				globals: globals
+			})
+		})
+
 		// 404'd
 		app.use(function(req, res, next) {
 			// res.send(404, 'Sorry cant find that!');
