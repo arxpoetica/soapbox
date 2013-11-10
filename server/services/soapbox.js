@@ -1,9 +1,9 @@
 var rootDir = process.env.NODE_ENV === 'production' ? '/home/deploy/current' : process.cwd();
 var timerService = require(rootDir + '/server/services/timer');
-var voteService = require(rootDir + '/server/services/vote');
+var sessionService = require(rootDir + '/server/services/session');
 
 var self = module.exports = {
-	users: [],
+	users: sessionService.getQueue,
 	speaker: null,
 	attachSocketLayer: function(socketLayer) {
 		// attach scope to this file
@@ -33,7 +33,11 @@ var self = module.exports = {
 				// var numClients = io.sockets.clients(data.room).length;
 
 				//add to queue
-				self.users.push(data.id);
+				sessionService.pushUser(_userid, data.id, function(session){
+					// update the vote count on the front-end
+					console.log(session.queue);
+					self.users = session.queue;
+				});
 
 				//if there is no current speaker && queue is long enough make speaker and start
 				if(!self.speaker && self.users.length > 1) {
@@ -95,8 +99,16 @@ var self = module.exports = {
 				console.log('done speaking');
 				if(self.speaker.id === speaker) {
 					//update queue and move current to end
-					self.users.shift();
-					self.users.push(speaker);
+					// self.users.shift();
+					sessionService.popUser(data.userid, self.users.shift(), function(session){
+						// update the queue on the front-end
+						console.log(session.queue);
+					});
+					// self.users.push(speaker);
+					sessionService.pushuser(data.userid, speaker, function(session){
+						// update the queue on the front-end
+						console.log(session.queue);
+					});
 					self.speaker.id = self.users[0];
 					self.speaker.ready = false;
 					//start new speaker
@@ -121,14 +133,14 @@ var self = module.exports = {
 
 			socket.on('initSession', function(data) {
 				//console.log(data)
-				voteService.createSession(data.user, function(session){
+				sessionService.createSession(data.userid, function(session){
 					// console.log(session.votes);
 				});
 			});
 
 			socket.on('upVoteUser', function(data) {
 				// console.log(data);
-				voteService.upvote(data.user, function(session){
+				sessionService.upvote(data.userid, function(session){
 					// update the vote count on the front-end
 					// console.log(session.votes);
 				});
@@ -136,9 +148,25 @@ var self = module.exports = {
 
 			socket.on('downVoteUser', function(data) {
 				console.log(data);
-				voteService.downvote(data.user, function(session){
+				sessionService.downvote(data.userid, function(session){
 					// update the vote count on the front-end
 					console.log(session.votes);
+				});
+			});
+
+			socket.on('pushUser', function(data) {
+				console.log(data);
+				sessionService.pushuser(data.userid, data.pushed, function(session){
+					// update the vote count on the front-end
+					console.log(session.queue);
+				});
+			});
+
+			socket.on('popUser', function(data) {
+				console.log(data);
+				sessionService.popUser(data.userid, data.popped, function(session){
+					// update the vote count on the front-end
+					console.log(session.queue);
 				});
 			});
 

@@ -16,6 +16,7 @@ var self = module.exports = {
 				var newSession = new Session();
 				newSession.userId = userId;
 				newSession.votes = 0;
+				newSession.queue = [];
 				newSession.save(function(err) {
 					if (err) {
 						throw err;
@@ -58,8 +59,18 @@ var self = module.exports = {
 		});
 	},
 
-	updateSession: function(userId, votes, callback) {
+	updateSessionVotes: function(userId, votes, callback) {
 		Session.update({ 'userId': userId }, { 'votes': votes }, { multi: true }, function(err, session){
+			if (err) {
+				throw err;
+			} else {
+				if (typeof callback == 'function') { callback(session); }
+			}
+		});
+	},
+
+	updateSessionQueue: function(userId, queue, callback) {
+		Session.update({ 'userId': userId }, { 'queue': queue }, { multi: true }, function(err, session){
 			if (err) {
 				throw err;
 			} else {

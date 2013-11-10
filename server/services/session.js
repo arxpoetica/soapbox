@@ -32,7 +32,7 @@ var self = module.exports = {
 	upvote: function(userId, callback){
 		// +1
 		self.getVoteCount(userId, function(votes){
-			SessionController.updateSession(userId, votes + 1, function(session){
+			SessionController.updateSessionVotes(userId, votes + 1, function(session){
 				if (typeof callback === 'function') {
 					callback(session);
 				}
@@ -43,7 +43,34 @@ var self = module.exports = {
 	downvote: function(userId, callback){
 		// --
 		self.getVoteCount(userId, function(votes){
-			SessionController.updateSession(userId, votes - 1, function(session){
+			SessionController.updateSessionVotes(userId, votes - 1, function(session){
+				if (typeof callback === 'function') {
+					callback(session);
+				}
+			});	
+		});
+	},
+
+	getQueue: function(userId, callback){
+		SessionController.getSession(userId, function(session){
+			console.log(session.queue);
+			callback(session.queue);
+		});
+	}
+
+	pushUser: function(userId, pushUser, callback){
+		self.getQueue(userId, function(queue){
+			SessionController.updateSessionQueue(userId, queue.push(pushUser), function(session){
+				if (typeof callback === 'function') {
+					callback(session);
+				}
+			});	
+		});		
+	},
+
+	popUser: function(userId, popUser, callback){
+		self.getQueue(userId, function(queue){
+			SessionController.updateSessionQueue(userId, queue.splice(queue.indexOf(popUser),1), function(session){
 				if (typeof callback === 'function') {
 					callback(session);
 				}

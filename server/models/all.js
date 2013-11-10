@@ -23,6 +23,7 @@ var self = module.exports = {
 
 		var SessionSchema = new mongoose.Schema({
 			userId: String,
+			queue: Array,
 			votes: {
 				type: Number,
 				default: 0

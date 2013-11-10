@@ -265,7 +265,8 @@
 	SOAPBOX.initVoting = function() {
 
 		_socket.emit('initSession', {
-			user: _userId,
+			userId: _userId,
+			queue: _queue
 		});
 		
 		$up = $('.speaker .up');
@@ -273,12 +274,12 @@
 
 		$up.on('click', function(event) {
 			_socket.emit('upVoteUser', {
-				user: _userId,
+				userId: _userId,
 			});
 		});
 		$down.on('click', function(event) {
 			_socket.emit('downVoteUser', {
-				user: _userId,
+				userID: _userId,
 			});
 		});
 
