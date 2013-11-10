@@ -24,14 +24,6 @@
 		_socket = io.connect('http://' + SOAPBOX.baseUrl);
 		$chatInput = $('#chatInput');
 		$chatLog = $('#chatLog');
-
-		SOAPBOX.setupSocketListeners();
-		if (!_room) {
-			//hard code 1 room for now
-			_room = 'nko';
-			_socket.emit('join', {room: _room, id: _userId });
-		}
-		// window._socket = _socket;
 	};
 
 	SOAPBOX.setupSocketListeners = function() {
@@ -49,10 +41,24 @@
 			//SOAPBOX.initStream(users[0]);
 		});
 
+		//add user to queue
 		_socket.on('newUser', function (id) {
-			//add the new user if it is not you to the local queue
+			console.log('new: ', id);
 			if(id !== _userId) {
 				_queue.push(_userId);
+			}
+		});
+
+		_socket.on('userLeft', function (id) {
+			//update queue
+			console.log('left: ', id);
+			for(var i = 0; i < _queue.length; i++) {
+				if(_queue[i] === id) {
+					var firstHalf = _queue.slice(0,i),
+						secondHalf = _queue.slice(i+1, _queue.length);
+					_queue = first.concat(second);
+					break;
+				}
 			}
 		});
 	};
@@ -126,6 +132,15 @@
 
 			// accept inbound
 			SOAPBOX.serverRTC.register(_userId, function(worked) {
+				
+				//dont join queue or receive events UNTIL they accept microphone
+				SOAPBOX.setupSocketListeners();
+				if (!_room) {
+					//hard code 1 room for now
+					_room = 'nko';
+					_socket.emit('join', {room: _room, id: _userId });
+				}
+
 				SOAPBOX.serverRTC.on("call", function(call) {
 					console.log("Inbound call", call);
 
